@@ -5,15 +5,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
 public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        System.out.println("onCreate");
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -35,5 +34,30 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume(){
+        System.out.println("onResume");
+        super.onResume();
+    }
+
+    @Override
+    public void onPause(){
+        System.out.println("onPause");
+        super.onPause();
+    }
+
+    @Override
+    public void onStop(){
+        System.out.println("onStop");
+        super.onStop();
+        // super.finish(): TODO ?
+    }
+
+    @Override
+    public void onDestroy(){
+        System.out.println("onDestroy");
+        super.onDestroy();
     }
 }
