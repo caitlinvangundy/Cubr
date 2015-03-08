@@ -4,6 +4,9 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.view.View;
+import android.view.View.OnClickListener;
 
 public class MainActivity extends FragmentActivity {
 
@@ -12,6 +15,17 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         System.out.println("onCreate");
+
+        Button btn1 = (Button) findViewById(R.id.exitButton);
+        btn1.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Exit button clicked");
+                finish();
+                System.exit(0);
+            }
+        });
     }
 
     @Override
