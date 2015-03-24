@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 
 public class MainActivity extends FragmentActivity {
     private Cube cube;
-    private Cube finishedCube;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

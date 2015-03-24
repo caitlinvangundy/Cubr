@@ -10,8 +10,7 @@ public class Column {
     private int cubeCount;
     private List<Square> squares;
 
-    public Column(){
-        cubeCount = 3;
-        squares = new ArrayList<Square>();
+    public Column(int color, List<Square> squaresToAdd){
+
     }
 }

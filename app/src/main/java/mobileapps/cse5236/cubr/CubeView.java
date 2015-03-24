@@ -13,11 +13,11 @@ public class CubeView {
 
     public CubeView(){
         currentFace = new Face(0);
+        rightFace = new Face(1);
         backFace = new Face(2);
         leftFace = new Face(3);
-        rightFace = new Face(1);
-        bottomFace = new Face(5);
         topFace = new Face(4);
+        bottomFace = new Face(5);
     }
 
     public void rotateColumn(int index){
@@ -29,7 +29,6 @@ public class CubeView {
     }
 
     public void changeView(Face clickedFace){
-        currentFace = clickedFace;
-        // TODO more logic needed here
+
     }
 }

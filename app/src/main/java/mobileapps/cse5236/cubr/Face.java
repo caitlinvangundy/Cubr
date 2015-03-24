@@ -12,12 +12,15 @@ public class Face {
     private List<Column> columns;
     private int size;
 
-    public Face(int index){
+    public Face(int colorIndex){
+        size = 2;
         isColorBlindOn = false;
-        // TODO another list impl may be more beneficial
         rows = new ArrayList<Row>();
         columns = new ArrayList<Column>();
-        size = 9;
+        for  (int i = 0; i < size; i++){
+            rows.add(i, new Row(colorIndex, i));
+        }
+        // TODO Setup columns
     }
 
     public void rotateColumn(int index){
