@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 public class MainActivity extends FragmentActivity {
+    private Cube cube;
+    private Cube finishedCube;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,8 +18,10 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
         System.out.println("onCreate");
 
-        Button btn1 = (Button) findViewById(R.id.exitButton);
-        btn1.setOnClickListener(new OnClickListener() {
+        cube = new Cube();
+
+        Button exitButton = (Button) findViewById(R.id.exitButton);
+        exitButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -66,7 +70,6 @@ public class MainActivity extends FragmentActivity {
     public void onStop(){
         System.out.println("onStop");
         super.onStop();
-        // super.finish(): TODO ?
     }
 
     @Override
