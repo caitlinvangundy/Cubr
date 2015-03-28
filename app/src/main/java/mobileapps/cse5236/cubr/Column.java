@@ -8,9 +8,13 @@ import java.util.List;
  */
 public class Column {
     private int cubeCount;
-    private List<Square> squares;
+    public List<Square> squares;
 
-    public Column(int color, List<Square> squaresToAdd){
-
+    public Column(int color, List<Square> squaresToAdd) {
+        cubeCount = squaresToAdd.size();
+        squares = new ArrayList<Square>(cubeCount);
+        for (int i = 0; i < squaresToAdd.size(); i++) {
+            squares.add(i, squaresToAdd.get(i));
+        }
     }
 }

@@ -13,22 +13,21 @@ public class SplashScreen extends Activity {
         setContentView(R.layout.activity_splash);
         final SplashScreen splashScreen = this;
 
-        splashThread =  new Thread(){
+        splashThread = new Thread() {
             @Override
-            public void run(){
+            public void run() {
                 try {
-                    synchronized(this){
+                    synchronized (this) {
                         wait(5000);
                     }
-                }
-                catch(InterruptedException ex){
+                } catch (InterruptedException ex) {
                     System.exit(-1);
                 }
 
                 finish();
 
                 Intent intent = new Intent();
-                intent.setClass(splashScreen, MainActivity.class);
+                intent.setClass(splashScreen, GameSession.class);
                 startActivity(intent);
             }
         };

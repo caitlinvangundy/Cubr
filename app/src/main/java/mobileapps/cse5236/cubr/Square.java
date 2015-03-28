@@ -2,7 +2,6 @@ package mobileapps.cse5236.cubr;
 
 import android.graphics.Color;
 import android.media.Image;
-import android.support.v4.app.FragmentActivity;
 import android.widget.ImageView;
 
 import java.util.HashMap;
@@ -10,15 +9,15 @@ import java.util.HashMap;
 /**
  * Created by Caitlin on 3/24/2015.
  */
-public class Square extends FragmentActivity {
+public class Square {
     private HashMap<Integer, Integer> colorMap;
     private int squareId;
-    private int color;
+    public int color;
     private Image image;
     private boolean isColorBlindOn;
+    public ImageView imageView;
 
-    public Square(int colorIndex, int squareIndex){
-        setContentView(R.layout.rubix_cube);
+    public Square(int colorIndex, int squareIndex) {
         squareId = squareIndex;
         color = colorIndex;
 
@@ -33,27 +32,29 @@ public class Square extends FragmentActivity {
         color = colorMap.get(colorIndex);
 
         ImageView square;
-        switch (squareIndex){
+
+        // TODO Set color
+        switch (squareIndex) {
             case 0:
-                square = (ImageView) findViewById(R.id.topLeft);
+                //square = (ImageView) findViewById(R.id.topLeft);
                 break;
             case 1:
-                square = (ImageView) findViewById(R.id.topRight);
+                //square = (ImageView) findViewById(R.id.topRight);
                 break;
             case 2:
-                square = (ImageView) findViewById(R.id.bottomLeft);
+                //square = (ImageView) findViewById(R.id.bottomLeft);
                 break;
             case 3:
-                square = (ImageView) findViewById(R.id.bottomRight);
+                //square = (ImageView) findViewById(R.id.bottomRight);
                 break;
             default:
                 square = null;
         }
 
-        if (null == square){
-            System.out.println("Error: square index invalid");
-        } else {
-            square.setBackgroundColor(color);
-        }
+        //if (null == square){
+        //      System.out.println("Error: square index invalid");
+        // } else {
+        //    square.setBackgroundColor(color);
+        //}
     }
 }

@@ -7,24 +7,4 @@
     tools:context="mobileapps.cse5236.cubr.MainActivity"
     android:background="#00000000">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="00:00:0.0"
-        android:id="@+id/timer"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Exit"
-        android:id="@+id/exitButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-
 </RelativeLayout>

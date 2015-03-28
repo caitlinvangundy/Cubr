@@ -26,6 +26,13 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".GameSession"
+            android:label="@string/app_name"
+            android:launchMode="standard"
+            android:screenOrientation="unspecified">
+        </activity>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
