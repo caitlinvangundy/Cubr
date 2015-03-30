@@ -19,17 +19,24 @@ public class GameSession extends Activity {
     private Cube cube;
     private Game activeGame = null;
     private CubeView cubeView = null;
-    private boolean isColorBlindModeOn = false;
+    private boolean isColorBlindModeOn = true;
     int scorePlayerOne = 0;
     String firstPlayerName = null;
     private static final String SCOREPLAYERONEKEY = "ScorePlayerOne";
+    private ImageView topLeft;
+    private ImageView topRight;
+    private ImageView bottomLeft;
+    private ImageView bottomRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rubix_cube);
         playNewGame();
+        setupButtons();
+    }
 
+    private void setupButtons() {
         Button exitButton = (Button) findViewById(R.id.exitButton);
         exitButton.setOnClickListener(new View.OnClickListener() {
 
@@ -38,6 +45,70 @@ public class GameSession extends Activity {
                 System.out.println("Exit button clicked");
                 finish();
                 System.exit(0);
+            }
+        });
+
+        Button upButton = (Button) findViewById(R.id.upButton);
+        upButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Up button clicked");
+                cube.changeView(cube.getCubeView().getBottomFace());
+
+                if(isColorBlindModeOn){
+                    setImage();
+                } else {
+                    setCurrentColor();
+                }
+            }
+        });
+
+        Button leftButton = (Button) findViewById(R.id.leftButton);
+        leftButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Left button clicked");
+                cube.changeView(cube.getCubeView().getRightFace());
+
+                if(isColorBlindModeOn){
+                    setImage();
+                } else {
+                    setCurrentColor();
+                }
+            }
+        });
+
+        Button downButton = (Button) findViewById(R.id.downButton);
+        downButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Down button clicked");
+                cube.changeView(cube.getCubeView().getTopFace());
+
+                if(isColorBlindModeOn){
+                    setImage();
+                } else {
+                    setCurrentColor();
+                }
+            }
+        });
+
+        Button rightButton = (Button) findViewById(R.id.rightButton);
+        rightButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Right button clicked");
+                cube.changeView(cube.getCubeView().getLeftFace());
+
+                if(isColorBlindModeOn){
+                    setImage();
+                } else {
+                    setCurrentColor();
+                }
             }
         });
     }
@@ -61,28 +132,22 @@ public class GameSession extends Activity {
     }
 
     private void playNewGame() {
-        ImageView topLeft = (ImageView) findViewById(R.id.topLeft);
-        ImageView topRight = (ImageView) findViewById(R.id.topRight);
-        ImageView bottomLeft = (ImageView) findViewById(R.id.bottomLeft);
-        ImageView bottomRight = (ImageView) findViewById(R.id.bottomRight);
+        topLeft = (ImageView) findViewById(R.id.topLeft);
+        topRight = (ImageView) findViewById(R.id.topRight);
+        bottomLeft = (ImageView) findViewById(R.id.bottomLeft);
+        bottomRight = (ImageView) findViewById(R.id.bottomRight);
 
         cube = new Cube();
         cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).imageView = topLeft;
         cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).imageView = topRight;
-        cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).imageView = bottomLeft;
-        cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).imageView = bottomRight;
+        cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).imageView = bottomLeft;
+        cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).imageView = bottomRight;
 
         if(isColorBlindModeOn){
-            topLeft.setImageResource(R.drawable.circle);
-            topRight.setImageResource(R.drawable.circle);
-            bottomLeft.setImageResource(R.drawable.circle);
-            bottomRight.setImageResource(R.drawable.circle);
+            setImage();
         } else {
-            setCurrentColor(topLeft, topRight, bottomLeft, bottomRight);
+            setCurrentColor();
         }
-        cube.changeView(cube.getCubeView().getLeftFace());
-        setCurrentColor(topLeft, topRight, bottomLeft, bottomRight);
-
         //cube.setGrid(gameGrid);
         //TextView turnStatusView = (TextView) findViewById(R.id.gameInfo);
         //TextView scoreView = (TextView) findViewById(R.id.scoreboard);
@@ -94,7 +159,47 @@ public class GameSession extends Activity {
 
     }
 
-    private void setCurrentColor(ImageView topLeft, ImageView topRight, ImageView bottomLeft, ImageView bottomRight) {
+    private void setImage() {
+        String image = cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).image;
+        setImageFromCurrentImageValue(image, topLeft);
+        image = cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).image;
+        setImageFromCurrentImageValue(image, topRight);
+        image = cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).image;
+        setImageFromCurrentImageValue(image, bottomLeft);
+        image = cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).image;
+        setImageFromCurrentImageValue(image, bottomRight);
+    }
+
+    private void setImageFromCurrentImageValue(String image, ImageView iv) {
+        switch(image){
+                case "circle":
+                iv.setImageResource(R.drawable.circle);
+                break;
+            case "heart":
+                iv.setImageResource(R.drawable.heart);
+                break;
+            case "square":
+                iv.setImageResource(R.drawable.square);
+                break;
+            case "star":
+                iv.setImageResource(R.drawable.star);
+                break;
+            case "triangle":
+                iv.setImageResource(R.drawable.triangle);
+                break;
+            case "x":
+                iv.setImageResource(R.drawable.x);
+                break;
+            default:
+                System.out.println("Incorrect image");
+        }
+    }
+
+    private void setCurrentColor() {
+        cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).imageView = topLeft;
+        cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).imageView = topRight;
+        cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).imageView = bottomLeft;
+        cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).imageView = bottomRight;
         topLeft.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).color);
         topRight.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).color);
         bottomLeft.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).color);

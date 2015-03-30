@@ -11,7 +11,7 @@ public class Face {
     public List<Row> rows;
     public List<Column> columns;
     private int size;
-    private int faceIndex;
+    public int faceIndex;
 
     public Face(int colorIndex) {
         faceIndex = colorIndex;

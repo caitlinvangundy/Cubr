@@ -19,7 +19,7 @@ public class Square {
     private HashMap<Integer, String> imageMap;
     private int squareId;
     public int color;
-    private String image;
+    public String image;
     private boolean isColorBlindOn;
     public ImageView imageView;
 
