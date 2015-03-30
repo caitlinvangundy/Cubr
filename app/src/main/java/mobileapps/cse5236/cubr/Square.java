@@ -1,6 +1,11 @@
 package mobileapps.cse5236.cubr;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.widget.ImageView;
 
@@ -11,15 +16,15 @@ import java.util.HashMap;
  */
 public class Square {
     private HashMap<Integer, Integer> colorMap;
+    private HashMap<Integer, String> imageMap;
     private int squareId;
     public int color;
-    private Image image;
+    private String image;
     private boolean isColorBlindOn;
     public ImageView imageView;
 
     public Square(int colorIndex, int squareIndex) {
         squareId = squareIndex;
-        color = colorIndex;
 
         colorMap = new HashMap<Integer, Integer>();
         colorMap.put(0, Color.RED);
@@ -29,32 +34,15 @@ public class Square {
         colorMap.put(4, Color.BLUE);
         colorMap.put(5, Color.WHITE);
 
+        imageMap = new HashMap<Integer, String>();
+        imageMap.put(0, "circle");
+        imageMap.put(1, "heart");
+        imageMap.put(2, "square");
+        imageMap.put(3, "star");
+        imageMap.put(4, "triangle");
+        imageMap.put(5, "x");
+
         color = colorMap.get(colorIndex);
-
-        ImageView square;
-
-        // TODO Set color
-        switch (squareIndex) {
-            case 0:
-                //square = (ImageView) findViewById(R.id.topLeft);
-                break;
-            case 1:
-                //square = (ImageView) findViewById(R.id.topRight);
-                break;
-            case 2:
-                //square = (ImageView) findViewById(R.id.bottomLeft);
-                break;
-            case 3:
-                //square = (ImageView) findViewById(R.id.bottomRight);
-                break;
-            default:
-                square = null;
-        }
-
-        //if (null == square){
-        //      System.out.println("Error: square index invalid");
-        // } else {
-        //    square.setBackgroundColor(color);
-        //}
+        image = imageMap.get(colorIndex);
     }
 }

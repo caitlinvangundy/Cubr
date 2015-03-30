@@ -19,6 +19,7 @@ public class GameSession extends Activity {
     private Cube cube;
     private Game activeGame = null;
     private CubeView cubeView = null;
+    private boolean isColorBlindModeOn = false;
     int scorePlayerOne = 0;
     String firstPlayerName = null;
     private static final String SCOREPLAYERONEKEY = "ScorePlayerOne";
@@ -67,13 +68,20 @@ public class GameSession extends Activity {
 
         cube = new Cube();
         cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).imageView = topLeft;
-        topLeft.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).color);
         cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).imageView = topRight;
-        topRight.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).color);
         cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).imageView = bottomLeft;
-        bottomLeft.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).color);
         cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).imageView = bottomRight;
-        bottomRight.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).color);
+
+        if(isColorBlindModeOn){
+            topLeft.setImageResource(R.drawable.circle);
+            topRight.setImageResource(R.drawable.circle);
+            bottomLeft.setImageResource(R.drawable.circle);
+            bottomRight.setImageResource(R.drawable.circle);
+        } else {
+            setCurrentColor(topLeft, topRight, bottomLeft, bottomRight);
+        }
+        cube.changeView(cube.getCubeView().getLeftFace());
+        setCurrentColor(topLeft, topRight, bottomLeft, bottomRight);
 
         //cube.setGrid(gameGrid);
         //TextView turnStatusView = (TextView) findViewById(R.id.gameInfo);
@@ -84,6 +92,13 @@ public class GameSession extends Activity {
         // If Android is the first player, give it its turn
         //if(activeGame.getCurrentPlayerName() == "Android" ) scheduleAndroidsTurn();
 
+    }
+
+    private void setCurrentColor(ImageView topLeft, ImageView topRight, ImageView bottomLeft, ImageView bottomRight) {
+        topLeft.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).color);
+        topRight.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).color);
+        bottomLeft.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).color);
+        bottomRight.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).color);
     }
 //
 //    private void setPlayers(Game theGame){
