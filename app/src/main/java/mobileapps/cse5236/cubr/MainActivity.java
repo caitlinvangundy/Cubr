@@ -1,6 +1,5 @@
 package mobileapps.cse5236.cubr;
 
-import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,19 +8,32 @@ import android.widget.Button;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+
 public class MainActivity extends FragmentActivity {
-    private GameSession gameSession;
+    private Cube cube;
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         System.out.println("onCreate");
 
-        gameSession = new GameSession();
-        Intent intent = new Intent();
-        intent.setClass(this, GameSession.class);
-        startActivity(intent);
+        cube = new Cube();
+
+        Button exitButton = (Button) findViewById(R.id.exitButton);
+        exitButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Exit button clicked");
+                finish();
+                System.exit(0);
+            }
+        });
     }
 
     @Override
@@ -47,25 +59,25 @@ public class MainActivity extends FragmentActivity {
     }
 
     @Override
-    public void onResume() {
+    public void onResume(){
         System.out.println("onResume");
         super.onResume();
     }
 
     @Override
-    public void onPause() {
+    public void onPause(){
         System.out.println("onPause");
         super.onPause();
     }
 
     @Override
-    public void onStop() {
+    public void onStop(){
         System.out.println("onStop");
         super.onStop();
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(){
         System.out.println("onDestroy");
         super.onDestroy();
     }

@@ -31,6 +31,7 @@ public class GameSession extends Activity {
         playNewGame();
 
         Button exitButton = (Button) findViewById(R.id.exitButton);
+
         exitButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
