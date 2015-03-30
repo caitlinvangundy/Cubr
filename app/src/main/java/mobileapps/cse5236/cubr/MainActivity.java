@@ -1,5 +1,6 @@
 package mobileapps.cse5236.cubr;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,8 +13,8 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 
 public class MainActivity extends FragmentActivity {
+    private GameSession gameSession;
     private Cube cube;
-    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,11 @@ public class MainActivity extends FragmentActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         System.out.println("onCreate");
+
+        gameSession = new GameSession();
+        Intent intent = new Intent();
+        intent.setClass(this, GameSession.class);
+        startActivity(intent);
 
         cube = new Cube();
 
