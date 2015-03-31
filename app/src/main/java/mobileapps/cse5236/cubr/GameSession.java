@@ -4,15 +4,20 @@ package mobileapps.cse5236.cubr;
  * Created by Caitlin on 3/27/2015.
  */
 
+import java.util.TimerTask;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Handler.Callback;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.ImageView;
 
 public class GameSession extends Activity {
@@ -27,11 +32,26 @@ public class GameSession extends Activity {
     private ImageView topRight;
     private ImageView bottomLeft;
     private ImageView bottomRight;
+    private Timer timer;
+    private TextView timerView;
+
+    //runs without a timer by reposting this handler at the end of the runnable
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            timerView.setText(timer.toString());
+            timerHandler.postDelayed(this, 100);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rubix_cube);
+        timerView = (TextView) findViewById(R.id.timer);
+        timerHandler.postDelayed(timerRunnable, 0);
         playNewGame();
         setupButtons();
     }
@@ -269,6 +289,9 @@ public class GameSession extends Activity {
     }
 
     private void playNewGame() {
+        timer = new Timer();
+        timer.start();
+
         topLeft = (ImageView) findViewById(R.id.topLeft);
         topRight = (ImageView) findViewById(R.id.topRight);
         bottomLeft = (ImageView) findViewById(R.id.bottomLeft);
