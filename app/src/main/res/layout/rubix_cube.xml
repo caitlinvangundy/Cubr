@@ -80,6 +80,89 @@
         android:layout_centerHorizontal="true"
         android:text="Exit" />
 
+    <!-- Row and Column rotation buttons-->
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="}"
+        android:id="@+id/rowOneButton"
+        android:layout_alignTop="@+id/rubixCube"
+        android:layout_toRightOf="@+id/rubixCube"
+        android:layout_toEndOf="@+id/rubixCube" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="}"
+        android:id="@+id/rowTwoButton"
+        android:layout_alignBottom="@+id/rubixCube"
+        android:layout_toRightOf="@+id/rubixCube"
+        android:layout_toEndOf="@+id/rubixCube" />@+id/rowTwoButton"
+        android:layout_alignBottom="@+id/rubixCube"
+        android:layout_alignLeft="@+id/rowOneButton"
+        android:layout_alignStart="@+id/rowOneButton" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="{"
+        android:id="@+id/rowThreeButton"
+        android:layout_alignTop="@+id/rubixCube"
+        android:layout_toLeftOf="@+id/rubixCube"
+        android:layout_toStartOf="@+id/rubixCube" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="{"
+        android:id="@+id/rowFourButton"
+        android:layout_alignBottom="@+id/rubixCube"
+        android:layout_alignLeft="@+id/rowThreeButton"
+        android:layout_alignStart="@+id/rowThreeButton" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="^"
+        android:id="@+id/columnOneButton"
+        android:layout_above="@+id/rubixCube"
+        android:layout_alignLeft="@+id/rubixCube"
+        android:layout_alignStart="@+id/rubixCube" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="^"
+        android:id="@+id/columnTwoButton"
+        android:layout_above="@+id/rowOneButton"
+        android:layout_toLeftOf="@+id/rowOneButton"
+        android:layout_toStartOf="@+id/rowOneButton" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="V"
+        android:id="@+id/columnThreeButton"
+        android:layout_below="@+id/rubixCube"
+        android:layout_alignLeft="@+id/rubixCube"
+        android:layout_alignStart="@+id/rubixCube" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="V"
+        android:id="@+id/columnFourButton"
+        android:layout_below="@+id/rowTwoButton"
+        android:layout_toLeftOf="@+id/rowTwoButton"
+        android:layout_toStartOf="@+id/rowTwoButton" />
 
     <!--TODO Figure this fucking piece of bullshit out, goddammit.-->
     <!--com.facebook.login.widget.LoginButton
@@ -89,7 +172,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" /-->
+        android:layout_alignParentStart="true"/>-->
 
     <GridLayout
         android:id="@+id/rubixCube"

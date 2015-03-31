@@ -35,6 +35,220 @@ public class GameSession extends Activity {
         setupButtons();
     }
 
+    private void setupButtons() {
+        Button exitButton = (Button) findViewById(R.id.exitButton);
+
+        exitButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Exit button clicked");
+                finish();
+                System.exit(0);
+            }
+        });
+
+        Button upButton = (Button) findViewById(R.id.upButton);
+        upButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Up button clicked");
+                cube.changeView(cube.getCubeView().getBottomFace());
+
+                if(isColorBlindModeOn){
+                    setImage();
+                } else {
+                    setCurrentColor();
+                }
+            }
+        });
+
+        Button leftButton = (Button) findViewById(R.id.leftButton);
+        leftButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Left button clicked");
+                cube.changeView(cube.getCubeView().getRightFace());
+
+                if(isColorBlindModeOn){
+                    setImage();
+                } else {
+                    setCurrentColor();
+                }
+            }
+        });
+
+        Button downButton = (Button) findViewById(R.id.downButton);
+        downButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Down button clicked");
+                cube.changeView(cube.getCubeView().getTopFace());
+
+                if(isColorBlindModeOn){
+                    setImage();
+                } else {
+                    setCurrentColor();
+                }
+            }
+        });
+
+        Button rightButton = (Button) findViewById(R.id.rightButton);
+        rightButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Right button clicked");
+                cube.changeView(cube.getCubeView().getLeftFace());
+
+                if(isColorBlindModeOn){
+                    setImage();
+                } else {
+                    setCurrentColor();
+                }
+            }
+        });
+
+        Button rowOneButton = (Button) findViewById(R.id.rowOneButton);
+        rowOneButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Row one button clicked");
+                cube.rotateRow(0, "Right");
+                cube.getCubeView().getTopFace().rotateCounterClockwise();
+
+                if(isColorBlindModeOn){
+                    setImage();
+                } else {
+                    setCurrentColor();
+                }
+            }
+        });
+
+        Button rowTwoButton = (Button) findViewById(R.id.rowTwoButton);
+        rowTwoButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Row two button clicked");
+                cube.rotateRow(1, "Right");
+                cube.getCubeView().getBottomFace().rotateClockwise();
+
+                if(isColorBlindModeOn){
+                    setImage();
+                } else {
+                    setCurrentColor();
+                }
+            }
+        });
+
+        Button rowThreeButton = (Button) findViewById(R.id.rowThreeButton);
+        rowThreeButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Row three button clicked");
+                cube.rotateRow(0, "Left");
+                cube.getCubeView().getTopFace().rotateClockwise();
+
+                if(isColorBlindModeOn){
+                    setImage();
+                } else {
+                    setCurrentColor();
+                }
+            }
+        });
+
+        Button rowFourButton = (Button) findViewById(R.id.rowFourButton);
+        rowFourButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Row four button clicked");
+                cube.rotateRow(1, "Left");
+                cube.getCubeView().getBottomFace().rotateCounterClockwise();
+
+                if(isColorBlindModeOn){
+                    setImage();
+                } else {
+                    setCurrentColor();
+                }
+            }
+        });
+
+        Button columnOneButton = (Button) findViewById(R.id.columnOneButton);
+        columnOneButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Column one button clicked");
+                cube.rotateColumn(0, "Up");
+                cube.getCubeView().getLeftFace().rotateCounterClockwise();
+
+                if(isColorBlindModeOn){
+                    setImage();
+                } else {
+                    setCurrentColor();
+                }
+            }
+        });
+
+        Button columnTwoButton = (Button) findViewById(R.id.columnTwoButton);
+        columnTwoButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Column two button clicked");
+                cube.rotateColumn(1, "Up");
+                cube.getCubeView().getRightFace().rotateClockwise();
+
+                if(isColorBlindModeOn){
+                    setImage();
+                } else {
+                    setCurrentColor();
+                }
+            }
+        });
+
+        Button columnThreeButton = (Button) findViewById(R.id.columnThreeButton);
+        columnThreeButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Column three button clicked");
+                cube.rotateColumn(0, "Down");
+                cube.getCubeView().getLeftFace().rotateClockwise();
+
+                if(isColorBlindModeOn){
+                    setImage();
+                } else {
+                    setCurrentColor();
+                }
+            }
+        });
+
+        Button columnFourButton = (Button) findViewById(R.id.columnFourButton);
+        columnFourButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Column four button clicked");
+                cube.rotateColumn(1, "Down");
+                cube.getCubeView().getRightFace().rotateCounterClockwise();
+
+                if(isColorBlindModeOn){
+                    setImage();
+                } else {
+                    setCurrentColor();
+                }
+            }
+        });
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -247,69 +461,6 @@ public class GameSession extends Activity {
         // Restore turn
 
         // Restore board
-    }
-
-
-    private void setupButtons() {
-        Button exitButton = (Button) findViewById(R.id.exitButton);
-
-        exitButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                System.out.println("Exit button clicked");
-                finish();
-                System.exit(0);
-            }
-        });
-
-        Button upButton = (Button) findViewById(R.id.upButton);
-        upButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                System.out.println("Up button clicked");
-                cube.changeView(cube.getCubeView().getBottomFace());
-
-                applyColorOrImageChanges();
-            }
-        });
-
-        Button leftButton = (Button) findViewById(R.id.leftButton);
-        leftButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                System.out.println("Left button clicked");
-                cube.changeView(cube.getCubeView().getRightFace());
-
-                applyColorOrImageChanges();
-            }
-        });
-
-        Button downButton = (Button) findViewById(R.id.downButton);
-        downButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                System.out.println("Down button clicked");
-                cube.changeView(cube.getCubeView().getTopFace());
-
-                applyColorOrImageChanges();
-            }
-        });
-
-        Button rightButton = (Button) findViewById(R.id.rightButton);
-        rightButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                System.out.println("Right button clicked");
-                cube.changeView(cube.getCubeView().getLeftFace());
-
-                applyColorOrImageChanges();
-            }
-        });
     }
 }
 
