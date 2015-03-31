@@ -4,8 +4,8 @@ package mobileapps.cse5236.cubr;
  * Created by Joe on 3/31/2015.
  */
 public class Timer {
-    private long startTime;
-    private long elapsedTime;
+    public long startTime;
+    public long elapsedTime;
     private boolean timerOn;
 
     public Timer () {
@@ -24,7 +24,7 @@ public class Timer {
         timerOn = false;
     }
 
-    public boolean update() {
+    private boolean update() {
         if(timerOn) {
             elapsedTime = System.currentTimeMillis() - startTime;
         }
