@@ -64,6 +64,7 @@ public class GameSession extends Activity {
         mShaker.setOnShakeListener(new ShakeListener.OnShakeListener() {
             public void onShake() {
                 resetCube();
+                timer.start();
             }
         });
     }
@@ -285,6 +286,7 @@ public class GameSession extends Activity {
 
     @Override
     public void onResume() {
+        System.out.println("onResume");
         super.onResume();
         playNewGame();
         mShaker.resume();
@@ -311,7 +313,6 @@ public class GameSession extends Activity {
 
     private void playNewGame() {
         timer = new Timer();
-        timer.start();
 
         topLeft = (ImageView) findViewById(R.id.topLeft);
         topRight = (ImageView) findViewById(R.id.topRight);
@@ -482,7 +483,5 @@ public class GameSession extends Activity {
 
         // Restore board
     }
-
-    
 }
 
