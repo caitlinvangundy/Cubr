@@ -1,7 +1,5 @@
 package mobileapps.cse5236.cubr;
 
-import android.view.View;
-
 /**
  * Created by Caitlin on 3/24/2015.
  */
@@ -37,8 +35,6 @@ public class CubeView {
 
             topFace.rows.get(0).squares.set(index, tempCurrentTopRow.squares.get(index));
             topFace.rows.get(1).squares.set(index, tempCurrentBottomRow.squares.get(index));
-
-
         } else if ("Down".equals(direction)) {
             currentFace.rows.get(0).squares.set(index, topFace.rows.get(0).squares.get(index));
             currentFace.rows.get(1).squares.set(index, topFace.rows.get(1).squares.get(index));

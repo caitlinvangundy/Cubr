@@ -15,14 +15,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.util.Random;
+
 public class GameSession extends Activity {
     private Cube cube;
     private Game activeGame = null;
-    private CubeView cubeView = null;
-    private boolean isColorBlindModeOn = true;
-    int scorePlayerOne = 0;
-    String firstPlayerName = null;
-    private static final String SCOREPLAYERONEKEY = "ScorePlayerOne";
+    private boolean isColorBlindModeOn = false;
     private ImageView topLeft;
     private ImageView topRight;
     private ImageView bottomLeft;
@@ -31,87 +29,10 @@ public class GameSession extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.rubix_cube);
         playNewGame();
         setupButtons();
-    }
-
-    private void setupButtons() {
-        Button exitButton = (Button) findViewById(R.id.exitButton);
-
-        exitButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                System.out.println("Exit button clicked");
-                finish();
-                System.exit(0);
-            }
-        });
-
-        Button upButton = (Button) findViewById(R.id.upButton);
-        upButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                System.out.println("Up button clicked");
-                cube.changeView(cube.getCubeView().getBottomFace());
-
-                if(isColorBlindModeOn){
-                    setImage();
-                } else {
-                    setCurrentColor();
-                }
-            }
-        });
-
-        Button leftButton = (Button) findViewById(R.id.leftButton);
-        leftButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                System.out.println("Left button clicked");
-                cube.changeView(cube.getCubeView().getRightFace());
-
-                if(isColorBlindModeOn){
-                    setImage();
-                } else {
-                    setCurrentColor();
-                }
-            }
-        });
-
-        Button downButton = (Button) findViewById(R.id.downButton);
-        downButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                System.out.println("Down button clicked");
-                cube.changeView(cube.getCubeView().getTopFace());
-
-                if(isColorBlindModeOn){
-                    setImage();
-                } else {
-                    setCurrentColor();
-                }
-            }
-        });
-
-        Button rightButton = (Button) findViewById(R.id.rightButton);
-        rightButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                System.out.println("Right button clicked");
-                cube.changeView(cube.getCubeView().getLeftFace());
-
-                if(isColorBlindModeOn){
-                    setImage();
-                } else {
-                    setCurrentColor();
-                }
-            }
-        });
     }
 
     @Override
@@ -144,20 +65,39 @@ public class GameSession extends Activity {
         cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).imageView = bottomLeft;
         cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).imageView = bottomRight;
 
+        applyColorOrImageChanges();
+
+        // TODO When phone is shaken, run resetCube();
+        resetCube();
+    }
+
+    private void applyColorOrImageChanges() {
         if(isColorBlindModeOn){
             setImage();
         } else {
             setCurrentColor();
         }
-        //cube.setGrid(gameGrid);
-        //TextView turnStatusView = (TextView) findViewById(R.id.gameInfo);
-        //TextView scoreView = (TextView) findViewById(R.id.scoreboard);
-        //this.setPlayers(activeGame);
-        //gameView.showScores(activeGame.getPlayerOneName(), scorePlayerOne, activeGame.getPlayerTwoName(), scorePlayerTwo);
-        //gameView.setGameStatus(activeGame.getCurrentPlayerName() + " to play.");
-        // If Android is the first player, give it its turn
-        //if(activeGame.getCurrentPlayerName() == "Android" ) scheduleAndroidsTurn();
+    }
 
+    private void resetCube(){
+        Random rand = new Random();
+        int n = rand.nextInt(4);
+        for(int i = 0; i < n; i++){
+            cube.rotateRow(0, "Right");
+        }
+        n = rand.nextInt(4);
+        for(int i = 0; i < n; i++){
+            cube.rotateColumn(1, "Up");
+        }
+        n = rand.nextInt(4);
+        for(int i = 0; i < n; i++){
+            cube.rotateRow(1, "Left");
+        }
+        n = rand.nextInt(4);
+        for(int i = 0; i < n; i++){
+            cube.rotateColumn(0, "Down");
+        }
+        applyColorOrImageChanges();
     }
 
     private void setImage() {
@@ -295,7 +235,7 @@ public class GameSession extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         // Save session score
-        outState.putInt(SCOREPLAYERONEKEY, scorePlayerOne);
+        //outState.putInt(SCOREPLAYERONEKEY, scorePlayerOne);
         // Save turn
         //Save board
     }
@@ -303,10 +243,73 @@ public class GameSession extends Activity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         // Restore session score
-        scorePlayerOne = savedInstanceState.getInt(SCOREPLAYERONEKEY);
+        //scorePlayerOne = savedInstanceState.getInt(SCOREPLAYERONEKEY);
         // Restore turn
 
         // Restore board
+    }
+
+
+    private void setupButtons() {
+        Button exitButton = (Button) findViewById(R.id.exitButton);
+
+        exitButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Exit button clicked");
+                finish();
+                System.exit(0);
+            }
+        });
+
+        Button upButton = (Button) findViewById(R.id.upButton);
+        upButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Up button clicked");
+                cube.changeView(cube.getCubeView().getBottomFace());
+
+                applyColorOrImageChanges();
+            }
+        });
+
+        Button leftButton = (Button) findViewById(R.id.leftButton);
+        leftButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Left button clicked");
+                cube.changeView(cube.getCubeView().getRightFace());
+
+                applyColorOrImageChanges();
+            }
+        });
+
+        Button downButton = (Button) findViewById(R.id.downButton);
+        downButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Down button clicked");
+                cube.changeView(cube.getCubeView().getTopFace());
+
+                applyColorOrImageChanges();
+            }
+        });
+
+        Button rightButton = (Button) findViewById(R.id.rightButton);
+        rightButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("Right button clicked");
+                cube.changeView(cube.getCubeView().getLeftFace());
+
+                applyColorOrImageChanges();
+            }
+        });
     }
 }
 
