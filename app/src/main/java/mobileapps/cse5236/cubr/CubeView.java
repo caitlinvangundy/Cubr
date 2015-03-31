@@ -35,6 +35,12 @@ public class CubeView {
 
             topFace.rows.get(0).squares.set(index, tempCurrentTopRow);
             topFace.rows.get(1).squares.set(index, tempCurrentBottomRow);
+
+            if(index == 0) {
+                leftFace.rotateCounterClockwise();
+            } else if(index == 1) {
+                rightFace.rotateClockwise();
+            }
         } else if ("Down".equals(direction)) {
             currentFace.rows.get(0).squares.set(index, topFace.rows.get(0).squares.get(index));
             currentFace.rows.get(1).squares.set(index, topFace.rows.get(1).squares.get(index));
@@ -47,6 +53,12 @@ public class CubeView {
 
             bottomFace.rows.get(0).squares.set(index, tempCurrentTopRow);
             bottomFace.rows.get(1).squares.set(index, tempCurrentBottomRow);
+
+            if(index == 0) {
+                leftFace.rotateClockwise();
+            } else if(index == 1) {
+                rightFace.rotateCounterClockwise();
+            }
         }
     }
 
@@ -61,12 +73,24 @@ public class CubeView {
             backFace.rows.set(index, rightFace.rows.get(index));
             rightFace.rows.get(index).squares.set(0, tempCurrentTop);
             rightFace.rows.get(index).squares.set(1, tempCurrentBottom);
+            rightFace.rows.set(index, tempCurrent);
+            if(index == 0) {
+                topFace.rotateCounterClockwise();
+            } else if(index == 1) {
+                bottomFace.rotateClockwise();
+            }
         } else if ("Left".equals(direction)) {
             currentFace.rows.set(index, rightFace.rows.get(index));
             rightFace.rows.set(index, backFace.rows.get(index));
             backFace.rows.set(index, leftFace.rows.get(index));
             leftFace.rows.get(index).squares.set(0, tempCurrentTop);
             leftFace.rows.get(index).squares.set(1, tempCurrentBottom);
+            leftFace.rows.set(index, tempCurrent);
+            if(index == 0) {
+                topFace.rotateClockwise();
+            } else if(index == 1) {
+                bottomFace.rotateCounterClockwise();
+            }
         }
     }
 

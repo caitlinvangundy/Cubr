@@ -154,7 +154,6 @@ public class GameSession extends Activity {
             public void onClick(View v) {
                 System.out.println("Row one button clicked");
                 cube.rotateRow(0, "Right");
-                cube.getCubeView().getTopFace().rotateCounterClockwise();
 
                 if(isColorBlindModeOn){
                     setImage();
@@ -171,7 +170,6 @@ public class GameSession extends Activity {
             public void onClick(View v) {
                 System.out.println("Row two button clicked");
                 cube.rotateRow(1, "Right");
-                cube.getCubeView().getBottomFace().rotateClockwise();
 
                 if(isColorBlindModeOn){
                     setImage();
@@ -188,7 +186,6 @@ public class GameSession extends Activity {
             public void onClick(View v) {
                 System.out.println("Row three button clicked");
                 cube.rotateRow(0, "Left");
-                cube.getCubeView().getTopFace().rotateClockwise();
 
                 if(isColorBlindModeOn){
                     setImage();
@@ -206,7 +203,6 @@ public class GameSession extends Activity {
             public void onClick(View v) {
                 System.out.println("Row four button clicked");
                 cube.rotateRow(1, "Left");
-                cube.getCubeView().getBottomFace().rotateCounterClockwise();
 
                 if(isColorBlindModeOn){
                     setImage();
@@ -223,7 +219,6 @@ public class GameSession extends Activity {
             public void onClick(View v) {
                 System.out.println("Column one button clicked");
                 cube.rotateColumn(0, "Up");
-                cube.getCubeView().getLeftFace().rotateCounterClockwise();
 
                 if(isColorBlindModeOn){
                     setImage();
@@ -240,7 +235,6 @@ public class GameSession extends Activity {
             public void onClick(View v) {
                 System.out.println("Column two button clicked");
                 cube.rotateColumn(1, "Up");
-                cube.getCubeView().getRightFace().rotateClockwise();
 
                 if(isColorBlindModeOn){
                     setImage();
@@ -257,7 +251,6 @@ public class GameSession extends Activity {
             public void onClick(View v) {
                 System.out.println("Column three button clicked");
                 cube.rotateColumn(0, "Down");
-                cube.getCubeView().getLeftFace().rotateClockwise();
 
                 if(isColorBlindModeOn){
                     setImage();
@@ -274,7 +267,6 @@ public class GameSession extends Activity {
             public void onClick(View v) {
                 System.out.println("Column four button clicked");
                 cube.rotateColumn(1, "Down");
-                cube.getCubeView().getRightFace().rotateCounterClockwise();
 
                 if(isColorBlindModeOn){
                     setImage();
