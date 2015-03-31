@@ -21,8 +21,8 @@ public class CubeView {
     }
 
     public void rotateColumn(int index, String direction) {
-        Row tempCurrentTopRow = currentFace.rows.get(0);
-        Row tempCurrentBottomRow = currentFace.rows.get(1);
+        Square tempCurrentTopRow = currentFace.rows.get(0).squares.get(index);
+        Square tempCurrentBottomRow = currentFace.rows.get(1).squares.get(index);
         if ("Up".equals(direction)) {
             currentFace.rows.get(0).squares.set(index, bottomFace.rows.get(0).squares.get(index));
             currentFace.rows.get(1).squares.set(index, bottomFace.rows.get(1).squares.get(index));
@@ -33,8 +33,8 @@ public class CubeView {
             backFace.rows.get(0).squares.set(index, topFace.rows.get(0).squares.get(index));
             backFace.rows.get(1).squares.set(index, topFace.rows.get(1).squares.get(index));
 
-            topFace.rows.get(0).squares.set(index, tempCurrentTopRow.squares.get(index));
-            topFace.rows.get(1).squares.set(index, tempCurrentBottomRow.squares.get(index));
+            topFace.rows.get(0).squares.set(index, tempCurrentTopRow);
+            topFace.rows.get(1).squares.set(index, tempCurrentBottomRow);
         } else if ("Down".equals(direction)) {
             currentFace.rows.get(0).squares.set(index, topFace.rows.get(0).squares.get(index));
             currentFace.rows.get(1).squares.set(index, topFace.rows.get(1).squares.get(index));
@@ -45,20 +45,20 @@ public class CubeView {
             backFace.rows.get(0).squares.set(index, bottomFace.rows.get(0).squares.get(index));
             backFace.rows.get(1).squares.set(index, bottomFace.rows.get(1).squares.get(index));
 
-            bottomFace.rows.get(0).squares.set(index, tempCurrentTopRow.squares.get(index));
-            bottomFace.rows.get(1).squares.set(index, tempCurrentBottomRow.squares.get(index));
+            bottomFace.rows.get(0).squares.set(index, tempCurrentTopRow);
+            bottomFace.rows.get(1).squares.set(index, tempCurrentBottomRow);
         }
     }
 
     public void rotateRow(int index, String direction) {
         Row tempCurrent = currentFace.rows.get(index);
-        if ("Left".equals(direction)) {
+        if ("Right".equals(direction)) {
             // TODO What about the top and bottom faces?
             currentFace.rows.set(index, leftFace.rows.get(index));
             leftFace.rows.set(index, backFace.rows.get(index));
             backFace.rows.set(index, rightFace.rows.get(index));
             rightFace.rows.set(index, tempCurrent);
-        } else if ("Right".equals(direction)) {
+        } else if ("Left".equals(direction)) {
             currentFace.rows.set(index, rightFace.rows.get(index));
             rightFace.rows.set(index, backFace.rows.get(index));
             backFace.rows.set(index, leftFace.rows.get(index));
@@ -80,7 +80,7 @@ public class CubeView {
                 rightFace = tempCurrent;
                 rightFace.faceIndex = 1;
                 topFace.rotateCounterClockwise();
-                bottomFace.rotateCounterClockwise();
+                bottomFace.rotateClockwise();
                 break;
             case "Right":
                 currentFace = rightFace;
@@ -92,7 +92,7 @@ public class CubeView {
                 leftFace = tempCurrent;
                 leftFace.faceIndex = 3;
                 topFace.rotateClockwise();
-                bottomFace.rotateClockwise();
+                bottomFace.rotateCounterClockwise();
                 break;
             case "Top":
                 currentFace = topFace;
