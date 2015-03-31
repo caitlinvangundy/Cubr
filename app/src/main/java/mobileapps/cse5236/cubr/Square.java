@@ -17,15 +17,11 @@ import java.util.HashMap;
 public class Square {
     private HashMap<Integer, Integer> colorMap;
     private HashMap<Integer, String> imageMap;
-    private int squareId;
     public int color;
     public String image;
-    private boolean isColorBlindOn;
     public ImageView imageView;
 
-    public Square(int colorIndex, int squareIndex) {
-        squareId = squareIndex;
-
+    public Square(int colorIndex) {
         colorMap = new HashMap<Integer, Integer>();
         colorMap.put(0, Color.RED);
         colorMap.put(1, Color.MAGENTA);

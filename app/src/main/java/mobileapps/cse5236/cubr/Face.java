@@ -7,7 +7,6 @@ import java.util.List;
  * Created by Caitlin on 3/24/2015.
  */
 public class Face {
-    private boolean isColorBlindOn;
     public List<Row> rows;
     private int size;
     public int faceIndex;
@@ -15,7 +14,6 @@ public class Face {
     public Face(int colorIndex) {
         faceIndex = colorIndex;
         size = 2;
-        isColorBlindOn = false;
         rows = new ArrayList<Row>();
         for (int i = 0; i < size; i++) {
             rows.add(i, new Row(colorIndex, i));
@@ -23,10 +21,10 @@ public class Face {
     }
 
     public void rotateClockwise() {
-        Square topLeft = rows.get(0).squares.get(0); // 1
-        Square topRight = rows.get(0).squares.get(1); // 2
-        Square bottomLeft = rows.get(1).squares.get(0); // 3
-        Square bottomRight = rows.get(1).squares.get(1); // 4
+        Square topLeft = rows.get(0).squares.get(0);
+        Square topRight = rows.get(0).squares.get(1);
+        Square bottomLeft = rows.get(1).squares.get(0);
+        Square bottomRight = rows.get(1).squares.get(1);
 
         rows.set(0, rows.get(0)).squares.set(0, bottomLeft);
         rows.set(0, rows.get(0)).squares.set(1, topLeft);
@@ -35,10 +33,10 @@ public class Face {
     }
 
     public void rotateCounterClockwise() {
-        Square topLeft = rows.get(0).squares.get(0); // 1
-        Square topRight = rows.get(0).squares.get(1); // 2
-        Square bottomLeft = rows.get(1).squares.get(0); // 3
-        Square bottomRight = rows.get(1).squares.get(1); // 4
+        Square topLeft = rows.get(0).squares.get(0);
+        Square topRight = rows.get(0).squares.get(1);
+        Square bottomLeft = rows.get(1).squares.get(0);
+        Square bottomRight = rows.get(1).squares.get(1);
 
         rows.set(0, rows.get(0)).squares.set(0, topRight);
         rows.set(0, rows.get(0)).squares.set(1, bottomRight);
