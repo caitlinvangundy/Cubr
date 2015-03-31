@@ -144,6 +144,26 @@
         android:layout_toLeftOf="@+id/rowOneButton"
         android:layout_toStartOf="@+id/rowOneButton" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="V"
+        android:id="@+id/columnThreeButton"
+        android:layout_below="@+id/rubixCube"
+        android:layout_alignLeft="@+id/rubixCube"
+        android:layout_alignStart="@+id/rubixCube" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="V"
+        android:id="@+id/columnFourButton"
+        android:layout_below="@+id/rowTwoButton"
+        android:layout_toLeftOf="@+id/rowTwoButton"
+        android:layout_toStartOf="@+id/rowTwoButton" />
+
     <!--TODO Figure this fucking piece of bullshit out, goddammit.-->
     <!--com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
