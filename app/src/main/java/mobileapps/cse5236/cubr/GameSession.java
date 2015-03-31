@@ -4,16 +4,21 @@ package mobileapps.cse5236.cubr;
  * Created by Caitlin on 3/27/2015.
  */
 
+import java.util.TimerTask;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Handler.Callback;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.ImageView;
 
 import java.util.Random;
@@ -27,12 +32,27 @@ public class GameSession extends Activity {
     private ImageView bottomLeft;
     private ImageView bottomRight;
     private ShakeListener mShaker;
+    private Timer timer;
+    private TextView timerView;
+
+    //runs without a timer by reposting this handler at the end of the runnable
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            timerView.setText(timer.toString());
+            timerHandler.postDelayed(this, 100);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.rubix_cube);
+        timerView = (TextView) findViewById(R.id.timer);
+        timerHandler.postDelayed(timerRunnable, 0);
         playNewGame();
         activeGame = new Game(cube);
         setupButtons();
@@ -69,7 +89,7 @@ public class GameSession extends Activity {
                 System.out.println("Up button clicked");
                 cube.changeView(cube.getCubeView().getBottomFace());
 
-                if (isColorBlindModeOn) {
+                if(isColorBlindModeOn){
                     setImage();
                 } else {
                     setCurrentColor();
@@ -85,7 +105,7 @@ public class GameSession extends Activity {
                 System.out.println("Left button clicked");
                 cube.changeView(cube.getCubeView().getRightFace());
 
-                if (isColorBlindModeOn) {
+                if(isColorBlindModeOn){
                     setImage();
                 } else {
                     setCurrentColor();
@@ -101,7 +121,7 @@ public class GameSession extends Activity {
                 System.out.println("Down button clicked");
                 cube.changeView(cube.getCubeView().getTopFace());
 
-                if (isColorBlindModeOn) {
+                if(isColorBlindModeOn){
                     setImage();
                 } else {
                     setCurrentColor();
@@ -117,7 +137,7 @@ public class GameSession extends Activity {
                 System.out.println("Right button clicked");
                 cube.changeView(cube.getCubeView().getLeftFace());
 
-                if (isColorBlindModeOn) {
+                if(isColorBlindModeOn){
                     setImage();
                 } else {
                     setCurrentColor();
@@ -134,7 +154,7 @@ public class GameSession extends Activity {
                 cube.rotateRow(0, "Right");
                 cube.getCubeView().getTopFace().rotateCounterClockwise();
 
-                if (isColorBlindModeOn) {
+                if(isColorBlindModeOn){
                     setImage();
                 } else {
                     setCurrentColor();
@@ -151,7 +171,7 @@ public class GameSession extends Activity {
                 cube.rotateRow(1, "Right");
                 cube.getCubeView().getBottomFace().rotateClockwise();
 
-                if (isColorBlindModeOn) {
+                if(isColorBlindModeOn){
                     setImage();
                 } else {
                     setCurrentColor();
@@ -168,7 +188,7 @@ public class GameSession extends Activity {
                 cube.rotateRow(0, "Left");
                 cube.getCubeView().getTopFace().rotateClockwise();
 
-                if (isColorBlindModeOn) {
+                if(isColorBlindModeOn){
                     setImage();
                 } else {
                     setCurrentColor();
@@ -185,7 +205,7 @@ public class GameSession extends Activity {
                 cube.rotateRow(1, "Left");
                 cube.getCubeView().getBottomFace().rotateCounterClockwise();
 
-                if (isColorBlindModeOn) {
+                if(isColorBlindModeOn){
                     setImage();
                 } else {
                     setCurrentColor();
@@ -202,7 +222,7 @@ public class GameSession extends Activity {
                 cube.rotateColumn(0, "Up");
                 cube.getCubeView().getLeftFace().rotateCounterClockwise();
 
-                if (isColorBlindModeOn) {
+                if(isColorBlindModeOn){
                     setImage();
                 } else {
                     setCurrentColor();
@@ -219,7 +239,7 @@ public class GameSession extends Activity {
                 cube.rotateColumn(1, "Up");
                 cube.getCubeView().getRightFace().rotateClockwise();
 
-                if (isColorBlindModeOn) {
+                if(isColorBlindModeOn){
                     setImage();
                 } else {
                     setCurrentColor();
@@ -236,7 +256,7 @@ public class GameSession extends Activity {
                 cube.rotateColumn(0, "Down");
                 cube.getCubeView().getLeftFace().rotateClockwise();
 
-                if (isColorBlindModeOn) {
+                if(isColorBlindModeOn){
                     setImage();
                 } else {
                     setCurrentColor();
@@ -253,7 +273,7 @@ public class GameSession extends Activity {
                 cube.rotateColumn(1, "Down");
                 cube.getCubeView().getRightFace().rotateCounterClockwise();
 
-                if (isColorBlindModeOn) {
+                if(isColorBlindModeOn){
                     setImage();
                 } else {
                     setCurrentColor();
@@ -289,6 +309,9 @@ public class GameSession extends Activity {
     }
 
     private void playNewGame() {
+        timer = new Timer();
+        timer.start();
+
         topLeft = (ImageView) findViewById(R.id.topLeft);
         topRight = (ImageView) findViewById(R.id.topRight);
         bottomLeft = (ImageView) findViewById(R.id.bottomLeft);
@@ -304,29 +327,29 @@ public class GameSession extends Activity {
     }
 
     private void applyColorOrImageChanges() {
-        if (isColorBlindModeOn) {
+        if(isColorBlindModeOn){
             setImage();
         } else {
             setCurrentColor();
         }
     }
 
-    private void resetCube() {
+    private void resetCube(){
         Random rand = new Random();
         int n = rand.nextInt(4);
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++){
             cube.rotateRow(0, "Right");
         }
         n = rand.nextInt(4);
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++){
             cube.rotateColumn(1, "Up");
         }
         n = rand.nextInt(4);
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++){
             cube.rotateRow(1, "Left");
         }
         n = rand.nextInt(4);
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++){
             cube.rotateColumn(0, "Down");
         }
         applyColorOrImageChanges();
@@ -422,6 +445,7 @@ public class GameSession extends Activity {
                     }
                 })
                 .show();
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

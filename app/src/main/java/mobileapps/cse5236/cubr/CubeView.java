@@ -21,7 +21,9 @@ public class CubeView {
     }
 
     public void rotateColumn(int index, String direction) {
+        //Row tempCurrentTopRow = new Row(currentFace.rows.get(0));
         Row tempCurrentTopRow = currentFace.rows.get(0);
+        //Row tempCurrentBottomRow = new Row(currentFace.rows.get(1));
         Row tempCurrentBottomRow = currentFace.rows.get(1);
         if ("Up".equals(direction)) {
             currentFace.rows.get(0).squares.set(index, bottomFace.rows.get(0).squares.get(index));
