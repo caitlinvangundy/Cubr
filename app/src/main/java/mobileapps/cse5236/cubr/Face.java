@@ -9,7 +9,6 @@ import java.util.List;
 public class Face {
     private boolean isColorBlindOn;
     public List<Row> rows;
-    public List<Column> columns;
     private int size;
     public int faceIndex;
 
@@ -21,24 +20,6 @@ public class Face {
         for (int i = 0; i < size; i++) {
             rows.add(i, new Row(colorIndex, i));
         }
-
-        setupColumns(colorIndex);
-    }
-
-    private void setupColumns(int colorIndex) {
-        columns = new ArrayList<Column>();
-        List<Square> leftSquares = new ArrayList<Square>(size);
-        leftSquares.add(0, rows.get(0).squares.get(0));
-        leftSquares.add(1, rows.get(1).squares.get(0));
-        Column left = new Column(colorIndex, leftSquares);
-
-        List<Square> rightSquares = new ArrayList<Square>(size);
-        rightSquares.add(0, rows.get(0).squares.get(1));
-        rightSquares.add(1, rows.get(1).squares.get(1));
-        Column right = new Column(colorIndex, rightSquares);
-
-        columns.add(0, left);
-        columns.add(1, right);
     }
 
     public void rotateClockwise() {
