@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,7 @@ public class GameSession extends Activity {
     private ImageView topRight;
     private ImageView bottomLeft;
     private ImageView bottomRight;
+    private ShakeListener mShaker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,18 @@ public class GameSession extends Activity {
         //FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.rubix_cube);
         playNewGame();
+        activeGame = new Game(cube);
         setupButtons();
+        setupShaker();
+    }
+
+    private void setupShaker() {
+        mShaker = new ShakeListener(this);
+        mShaker.setOnShakeListener(new ShakeListener.OnShakeListener() {
+            public void onShake() {
+                resetCube();
+            }
+        });
     }
 
     private void setupButtons() {
@@ -56,7 +69,7 @@ public class GameSession extends Activity {
                 System.out.println("Up button clicked");
                 cube.changeView(cube.getCubeView().getBottomFace());
 
-                if(isColorBlindModeOn){
+                if (isColorBlindModeOn) {
                     setImage();
                 } else {
                     setCurrentColor();
@@ -72,7 +85,7 @@ public class GameSession extends Activity {
                 System.out.println("Left button clicked");
                 cube.changeView(cube.getCubeView().getRightFace());
 
-                if(isColorBlindModeOn){
+                if (isColorBlindModeOn) {
                     setImage();
                 } else {
                     setCurrentColor();
@@ -88,7 +101,7 @@ public class GameSession extends Activity {
                 System.out.println("Down button clicked");
                 cube.changeView(cube.getCubeView().getTopFace());
 
-                if(isColorBlindModeOn){
+                if (isColorBlindModeOn) {
                     setImage();
                 } else {
                     setCurrentColor();
@@ -104,7 +117,7 @@ public class GameSession extends Activity {
                 System.out.println("Right button clicked");
                 cube.changeView(cube.getCubeView().getLeftFace());
 
-                if(isColorBlindModeOn){
+                if (isColorBlindModeOn) {
                     setImage();
                 } else {
                     setCurrentColor();
@@ -121,7 +134,7 @@ public class GameSession extends Activity {
                 cube.rotateRow(0, "Right");
                 cube.getCubeView().getTopFace().rotateCounterClockwise();
 
-                if(isColorBlindModeOn){
+                if (isColorBlindModeOn) {
                     setImage();
                 } else {
                     setCurrentColor();
@@ -138,7 +151,7 @@ public class GameSession extends Activity {
                 cube.rotateRow(1, "Right");
                 cube.getCubeView().getBottomFace().rotateClockwise();
 
-                if(isColorBlindModeOn){
+                if (isColorBlindModeOn) {
                     setImage();
                 } else {
                     setCurrentColor();
@@ -155,7 +168,7 @@ public class GameSession extends Activity {
                 cube.rotateRow(0, "Left");
                 cube.getCubeView().getTopFace().rotateClockwise();
 
-                if(isColorBlindModeOn){
+                if (isColorBlindModeOn) {
                     setImage();
                 } else {
                     setCurrentColor();
@@ -172,7 +185,7 @@ public class GameSession extends Activity {
                 cube.rotateRow(1, "Left");
                 cube.getCubeView().getBottomFace().rotateCounterClockwise();
 
-                if(isColorBlindModeOn){
+                if (isColorBlindModeOn) {
                     setImage();
                 } else {
                     setCurrentColor();
@@ -189,7 +202,7 @@ public class GameSession extends Activity {
                 cube.rotateColumn(0, "Up");
                 cube.getCubeView().getLeftFace().rotateCounterClockwise();
 
-                if(isColorBlindModeOn){
+                if (isColorBlindModeOn) {
                     setImage();
                 } else {
                     setCurrentColor();
@@ -206,7 +219,7 @@ public class GameSession extends Activity {
                 cube.rotateColumn(1, "Up");
                 cube.getCubeView().getRightFace().rotateClockwise();
 
-                if(isColorBlindModeOn){
+                if (isColorBlindModeOn) {
                     setImage();
                 } else {
                     setCurrentColor();
@@ -223,7 +236,7 @@ public class GameSession extends Activity {
                 cube.rotateColumn(0, "Down");
                 cube.getCubeView().getLeftFace().rotateClockwise();
 
-                if(isColorBlindModeOn){
+                if (isColorBlindModeOn) {
                     setImage();
                 } else {
                     setCurrentColor();
@@ -240,7 +253,7 @@ public class GameSession extends Activity {
                 cube.rotateColumn(1, "Down");
                 cube.getCubeView().getRightFace().rotateCounterClockwise();
 
-                if(isColorBlindModeOn){
+                if (isColorBlindModeOn) {
                     setImage();
                 } else {
                     setCurrentColor();
@@ -253,12 +266,20 @@ public class GameSession extends Activity {
     public void onResume() {
         super.onResume();
         playNewGame();
+        mShaker.resume();
     }
 
     @Override
     public void onStop() {
         System.out.println("onStop");
         super.onStop();
+    }
+
+    @Override
+    public void onPause() {
+        System.out.println("onPause");
+        super.onPause();
+        mShaker.pause();
     }
 
     @Override
@@ -280,35 +301,32 @@ public class GameSession extends Activity {
         cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).imageView = bottomRight;
 
         applyColorOrImageChanges();
-
-        // TODO When phone is shaken, run resetCube();
-        resetCube();
     }
 
     private void applyColorOrImageChanges() {
-        if(isColorBlindModeOn){
+        if (isColorBlindModeOn) {
             setImage();
         } else {
             setCurrentColor();
         }
     }
 
-    private void resetCube(){
+    private void resetCube() {
         Random rand = new Random();
         int n = rand.nextInt(4);
-        for(int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             cube.rotateRow(0, "Right");
         }
         n = rand.nextInt(4);
-        for(int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             cube.rotateColumn(1, "Up");
         }
         n = rand.nextInt(4);
-        for(int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             cube.rotateRow(1, "Left");
         }
         n = rand.nextInt(4);
-        for(int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             cube.rotateColumn(0, "Down");
         }
         applyColorOrImageChanges();
@@ -326,8 +344,8 @@ public class GameSession extends Activity {
     }
 
     private void setImageFromCurrentImageValue(String image, ImageView iv) {
-        switch(image){
-                case "circle":
+        switch (image) {
+            case "circle":
                 iv.setImageResource(R.drawable.circle);
                 break;
             case "heart":
@@ -351,6 +369,10 @@ public class GameSession extends Activity {
     }
 
     private void setCurrentColor() {
+        topLeft.setImageDrawable(null);
+        topRight.setImageDrawable(null);
+        bottomLeft.setImageDrawable(null);
+        bottomRight.setImageDrawable(null);
         cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).imageView = topLeft;
         cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).imageView = topRight;
         cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).imageView = bottomLeft;
@@ -359,25 +381,6 @@ public class GameSession extends Activity {
         topRight.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).color);
         bottomLeft.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).color);
         bottomRight.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).color);
-    }
-//
-//    private void setPlayers(Game theGame){
-//        firstPlayerName = Settings.getName(this);
-//        theGame.setPlayerNames(firstPlayerName, firstPlayerName);
-//    }
-
-
-    protected void humanTakesATurn(int x, int y) {/* human's turn */
-//        System.out.println("Thread ID in humanTakesATurn:" + Thread.currentThread().getId());
-//        boolean successfulPlay = activeGame.play(x,y);
-//        if (successfulPlay){
-//            cubeView.placeSymbol(x,y); /* Update the display */
-//            if(activeGame.isActive()){
-//                cubeView.setGameStatus(activeGame.getCurrentPlayerName() + " to play.");
-//            } else {
-//                proceedToFinish();
-//            }
-//        }
     }
 
     private void quitGame() {
@@ -398,16 +401,11 @@ public class GameSession extends Activity {
     }
 
     private void proceedToFinish() {
-        String winningPlayerName = null;
-
         String alertMessage = null;
         if (activeGame.isWon()) {
             alertMessage = " You've won!";
             //cubeView.setGameStatus(alertMessage);
             //cubeView.showScores(firstPlayerName, scorePlayerOne, secondPlayerName, scorePlayerTwo);
-        } else if (activeGame.isDrawn()) {
-            alertMessage = "DRAW!";
-            //cubeView.setGameStatus(alertMessage);
         }
         new AlertDialog.Builder(this)
                 .setTitle(alertMessage)
@@ -424,25 +422,22 @@ public class GameSession extends Activity {
                     }
                 })
                 .show();
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-//        super.onCreateOptionsMenu(menu);
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_ingame, menu);
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.menu_help:
-//                startActivity(new Intent(this, Help.class));
-//                return true;
-//            case R.id.menu_exit:
-//                quitGame();
-//                return true;
-//        }
+        switch (item.getItemId()) {
+            case R.id.colorBlindMode:
+                isColorBlindModeOn = !isColorBlindModeOn;
+                applyColorOrImageChanges();
+                return true;
+        }
         return false;
     }
 

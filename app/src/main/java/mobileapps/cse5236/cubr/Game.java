@@ -5,86 +5,43 @@ package mobileapps.cse5236.cubr;
  */
 
 public class Game {
-    private static final long serialVersionUID = 1L;
-
-    private enum STATE {Inactive, Active, Won, Draw}
-
-    ;
+    private Cube cube;
+    private enum STATE {Inactive, Active, Won};
     private STATE gameState = STATE.Inactive;
-    ;
-
-    //private Symbol currentSymbol=null;
-
-    private enum PLAYER {Player1, Player2}
-
-    ;
-    private PLAYER currentPlayer = PLAYER.Player1;
-    private PLAYER winningPlayer = PLAYER.Player1;
-
-    private String PlayerOneName = null, PlayerTwoName = null;
-
-    //private GameGrid gameGrid=null;
-
     private int playCount = 0;
 
-    Game() { //Constructor
-        //gameGrid = new GameGrid();
+    public Game(Cube cb) {
         gameState = STATE.Active;
-        //currentSymbol=Symbol.SymbolXCreate();
+        cube = cb;
     }
 
-//    GameGrid getGameGrid(){
-//        return gameGrid;
-//    }
-
-    public boolean play(int x, int y) {
-        boolean successfulPlay = false;
-//        if ((gameGrid.getValueAtLocation(x, y)==Symbol.SymbolBlankCreate())){
-//            successfulPlay = true;
-//            playCount++;
-//            gameGrid.setValueAtLocation(x, y, currentSymbol);
-//            checkResultAndSetState();
-//            if(gameState == STATE.Active){// if the game is still active
-//                // Swap symbols and players
-//                if(currentSymbol == Symbol.SymbolXCreate())
-//                    currentSymbol=Symbol.SymbolOCreate();
-//                else
-//                    currentSymbol=Symbol.SymbolXCreate();
-//                if(currentPlayer==PLAYER.Player1) currentPlayer=PLAYER.Player2; else currentPlayer=PLAYER.Player1;
-//            }
-//        }
-        return successfulPlay;
-    }
-
-    private void checkResultAndSetState() {
-//        if(gameGrid.isRowFilled(0)||
-//                gameGrid.isRowFilled(1)||
-//                gameGrid.isRowFilled(2)||
-//                gameGrid.isColumnFilled(0)||
-//                gameGrid.isColumnFilled(1)||
-//                gameGrid.isColumnFilled(2)||
-//                gameGrid.isLeftToRightDiagonalFilled()||
-//                gameGrid.isRightToLeftDiagonalFilled()){
-//            winningPlayer = currentPlayer;
-//            gameState = STATE.Won;
-//        }else if (playCount==9){
-//            gameState = STATE.Draw;
-//        } /* else, leave state as is */
-    }
-
-    boolean isActive() {
+    public boolean isActive() {
         return gameState == STATE.Active;
     }
 
-    boolean isWon() {
+    public boolean isWon() {
         return gameState == STATE.Won;
     }
 
-    boolean isDrawn() {
-        return gameState == STATE.Draw;
+    public void checkResultAndSetState() {
+        if (allSidesComplete()) {
+            gameState = STATE.Won;
+        }
     }
 
-    public int getPlayCount() {
-        return playCount;
+    private boolean allSidesComplete(){
+        return checkFace(cube.getCubeView().getCurrentFace())
+                && checkFace(cube.getCubeView().getTopFace())
+                && checkFace(cube.getCubeView().getBottomFace())
+                && checkFace(cube.getCubeView().getLeftFace())
+                && checkFace(cube.getCubeView().getRightFace())
+                && checkFace(cube.getCubeView().getBackFace());
+    }
+
+    private boolean checkFace(Face face){
+        int color = face.rows.get(0).squares.get(0).color;
+        return (color == face.rows.get(0).squares.get(1).color)
+                && (color == face.rows.get(1).squares.get(0).color)
+                && (color == face.rows.get(1).squares.get(1).color);
     }
 }
