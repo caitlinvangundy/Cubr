@@ -194,6 +194,7 @@ public class GameSession extends Activity {
                     setCurrentColor();
                 }
             }
+
         });
 
         Button rowFourButton = (Button) findViewById(R.id.rowFourButton);
