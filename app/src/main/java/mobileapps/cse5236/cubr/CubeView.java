@@ -23,34 +23,50 @@ public class CubeView {
     }
 
     public void rotateColumn(int index, String direction) {
-        Column tempCurrent = currentFace.columns.get(index);
+        Row tempCurrentTopRow = currentFace.rows.get(0);
+        Row tempCurrentBottomRow = currentFace.rows.get(1);
         if ("Up".equals(direction)) {
-            // TODO What about the left and right faces?
-            currentFace.columns.set(index, bottomFace.columns.get(index));
-            bottomFace.columns.set(index, backFace.columns.get(index));
-            backFace.columns.set(index, topFace.columns.get(index));
-            topFace.columns.set(index, tempCurrent);
+            currentFace.rows.get(0).squares.set(index, bottomFace.rows.get(0).squares.get(index));
+            currentFace.rows.get(1).squares.set(index, bottomFace.rows.get(1).squares.get(index));
+
+            bottomFace.rows.get(0).squares.set(index, backFace.rows.get(0).squares.get(index));
+            bottomFace.rows.get(1).squares.set(index, backFace.rows.get(1).squares.get(index));
+
+            backFace.rows.get(0).squares.set(index, topFace.rows.get(0).squares.get(index));
+            backFace.rows.get(1).squares.set(index, topFace.rows.get(1).squares.get(index));
+
+            topFace.rows.get(0).squares.set(index, tempCurrentTopRow.squares.get(index));
+            topFace.rows.get(1).squares.set(index, tempCurrentBottomRow.squares.get(index));
+
+
         } else if ("Down".equals(direction)) {
-            currentFace.columns.set(index, topFace.columns.get(index));
-            topFace.columns.set(index, backFace.columns.get(index));
-            backFace.columns.set(index, bottomFace.columns.get(index));
-            bottomFace.columns.set(index, tempCurrent);
+            currentFace.rows.get(0).squares.set(index, topFace.rows.get(0).squares.get(index));
+            currentFace.rows.get(1).squares.set(index, topFace.rows.get(1).squares.get(index));
+
+            topFace.rows.get(0).squares.set(index, backFace.rows.get(0).squares.get(index));
+            topFace.rows.get(1).squares.set(index, backFace.rows.get(1).squares.get(index));
+
+            backFace.rows.get(0).squares.set(index, bottomFace.rows.get(0).squares.get(index));
+            backFace.rows.get(1).squares.set(index, bottomFace.rows.get(1).squares.get(index));
+
+            bottomFace.rows.get(0).squares.set(index, tempCurrentTopRow.squares.get(index));
+            bottomFace.rows.get(1).squares.set(index, tempCurrentBottomRow.squares.get(index));
         }
     }
 
     public void rotateRow(int index, String direction) {
-        Column tempCurrent = currentFace.columns.get(index);
+        Row tempCurrent = currentFace.rows.get(index);
         if ("Left".equals(direction)) {
             // TODO What about the top and bottom faces?
-            currentFace.columns.set(index, leftFace.columns.get(index));
-            leftFace.columns.set(index, backFace.columns.get(index));
-            backFace.columns.set(index, rightFace.columns.get(index));
-            rightFace.columns.set(index, tempCurrent);
+            currentFace.rows.set(index, leftFace.rows.get(index));
+            leftFace.rows.set(index, backFace.rows.get(index));
+            backFace.rows.set(index, rightFace.rows.get(index));
+            rightFace.rows.set(index, tempCurrent);
         } else if ("Right".equals(direction)) {
-            currentFace.columns.set(index, rightFace.columns.get(index));
-            rightFace.columns.set(index, backFace.columns.get(index));
-            backFace.columns.set(index, leftFace.columns.get(index));
-            leftFace.columns.set(index, tempCurrent);
+            currentFace.rows.set(index, rightFace.rows.get(index));
+            rightFace.rows.set(index, backFace.rows.get(index));
+            backFace.rows.set(index, leftFace.rows.get(index));
+            leftFace.rows.set(index, tempCurrent);
         }
     }
 
@@ -60,36 +76,54 @@ public class CubeView {
             // TODO Might be missing logic to flip faces
             case "Left":
                 currentFace = leftFace;
+                currentFace.faceIndex = 0;
                 leftFace = backFace;
+                leftFace.faceIndex = 3;
                 backFace = rightFace;
+                backFace.faceIndex = 2;
                 rightFace = tempCurrent;
+                rightFace.faceIndex = 1;
                 topFace.rotateCounterClockwise();
                 bottomFace.rotateCounterClockwise();
                 break;
             case "Right":
                 currentFace = rightFace;
+                currentFace.faceIndex = 0;
                 rightFace = backFace;
+                rightFace.faceIndex = 1;
                 backFace = leftFace;
+                backFace.faceIndex = 2;
                 leftFace = tempCurrent;
+                leftFace.faceIndex = 3;
                 topFace.rotateClockwise();
                 bottomFace.rotateClockwise();
                 break;
             case "Top":
                 currentFace = topFace;
+                currentFace.faceIndex = 0;
                 topFace = backFace;
+                topFace.faceIndex = 4;
                 backFace = bottomFace;
+                backFace.faceIndex = 2;
                 bottomFace = tempCurrent;
+                bottomFace.faceIndex = 5;
                 leftFace.rotateClockwise();
                 rightFace.rotateCounterClockwise();
                 break;
             case "Bottom":
                 currentFace = bottomFace;
+                currentFace.faceIndex = 0;
                 bottomFace = backFace;
+                bottomFace.faceIndex = 5;
                 backFace = topFace;
+                backFace.faceIndex = 2;
                 topFace = tempCurrent;
+                topFace.faceIndex = 4;
                 leftFace.rotateCounterClockwise();
                 rightFace.rotateClockwise();
                 break;
+            default:
+                System.out.println("Incorrect face");
         }
     }
 
