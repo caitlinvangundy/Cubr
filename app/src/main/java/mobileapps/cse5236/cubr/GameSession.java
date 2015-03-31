@@ -486,6 +486,6 @@ public class GameSession extends Activity {
         // Restore board
     }
 
-    
+
 }
 
