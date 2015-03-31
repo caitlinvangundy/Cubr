@@ -73,7 +73,7 @@ public class CubeView {
             backFace.rows.set(index, rightFace.rows.get(index));
             rightFace.rows.get(index).squares.set(0, tempCurrentTop);
             rightFace.rows.get(index).squares.set(1, tempCurrentBottom);
-            rightFace.rows.set(index, tempCurrent);
+
             if(index == 0) {
                 topFace.rotateCounterClockwise();
             } else if(index == 1) {
@@ -85,7 +85,7 @@ public class CubeView {
             backFace.rows.set(index, leftFace.rows.get(index));
             leftFace.rows.get(index).squares.set(0, tempCurrentTop);
             leftFace.rows.get(index).squares.set(1, tempCurrentBottom);
-            leftFace.rows.set(index, tempCurrent);
+
             if(index == 0) {
                 topFace.rotateClockwise();
             } else if(index == 1) {
