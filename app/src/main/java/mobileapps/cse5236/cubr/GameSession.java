@@ -8,8 +8,11 @@ import java.io.File;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,6 +35,7 @@ public class GameSession extends Activity {
     private Timer timer;
     private TextView timerView;
 
+    //runs without a timer by reposting this handler at the end of the runnable
     Handler timerHandler = new Handler();
     Runnable timerRunnable = new Runnable() {
 
@@ -479,6 +483,6 @@ public class GameSession extends Activity {
         // Restore board
     }
 
-
+    
 }
 
