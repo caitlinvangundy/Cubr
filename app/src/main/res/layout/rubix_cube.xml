@@ -9,57 +9,70 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="mobileapps.cse5236.cubr.GameSession">
 
-    <ImageView
-        android:id="@+id/viewChanger"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:adjustViewBounds="true"
-        android:background="@android:color/black"
-        android:scaleType="fitXY"
-        android:layout_alignBottom="@+id/leftButton"
-        android:layout_toLeftOf="@+id/exitButton"
-        android:layout_toStartOf="@+id/exitButton"
-        android:layout_marginRight="36dp"
-        android:layout_marginEnd="36dp" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
+    <LinearLayout
+        android:id="@+id/viewChangerWithArrows"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Up"
-        android:id="@+id/upButton"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/viewChanger"
-        android:layout_alignEnd="@+id/viewChanger" />
+        android:orientation="horizontal">
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Right"
-        android:id="@+id/rightButton"
-        android:layout_below="@+id/upButton"
-        android:layout_toRightOf="@+id/upButton"
-        android:layout_toEndOf="@+id/upButton" />
+        <Button
+            android:id="@+id/leftButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/left" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Down"
-        android:id="@+id/downButton"
-        android:layout_below="@+id/rightButton"
-        android:layout_alignLeft="@+id/viewChanger"
-        android:layout_alignStart="@+id/viewChanger" />
+        <LinearLayout
+            android:id="@+id/middleViewChanger"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Left"
-        android:id="@+id/leftButton"
-        android:layout_below="@+id/upButton"
-        android:layout_toLeftOf="@+id/viewChanger"/>
+            <Button
+                android:id="@+id/upButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/viewChanger"
+                android:layout_alignParentTop="true"
+                android:layout_alignRight="@+id/viewChanger"
+                android:background="@drawable/up" />
+
+            <ImageView
+                android:id="@+id/viewChanger"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignBottom="@+id/leftButton"
+                android:layout_marginEnd="36dp"
+                android:layout_marginRight="36dp"
+                android:layout_toLeftOf="@+id/exitButton"
+                android:layout_toStartOf="@+id/exitButton"
+                android:adjustViewBounds="true"
+                android:background="@android:color/black"
+                android:scaleType="fitXY" />
+
+            <Button
+                android:id="@+id/downButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/viewChanger"
+                android:layout_alignStart="@+id/viewChanger"
+                android:layout_below="@+id/rightButton"
+                android:background="@drawable/down" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/rightButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/right" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/timer"
@@ -82,87 +95,84 @@
 
     <!-- Row and Column rotation buttons-->
     <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="}"
         android:id="@+id/rowOneButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/rubixCube"
+        android:layout_toEndOf="@+id/rubixCube"
         android:layout_toRightOf="@+id/rubixCube"
-        android:layout_toEndOf="@+id/rubixCube" />
+        android:background="@drawable/right_arrow" />
 
     <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="}"
         android:id="@+id/rowTwoButton"
-        android:layout_alignBottom="@+id/rubixCube"
-        android:layout_toRightOf="@+id/rubixCube"
-        android:layout_toEndOf="@+id/rubixCube" />@+id/rowTwoButton"
-        android:layout_alignBottom="@+id/rubixCube"
-        android:layout_alignLeft="@+id/rowOneButton"
-        android:layout_alignStart="@+id/rowOneButton" />
-
-    <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="{"
+        android:layout_alignBottom="@+id/rubixCube"
+        android:layout_toEndOf="@+id/rubixCube"
+        android:layout_toRightOf="@+id/rubixCube"
+        android:background="@drawable/right_arrow" />
+
+    <Button
         android:id="@+id/rowThreeButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/rubixCube"
         android:layout_toLeftOf="@+id/rubixCube"
-        android:layout_toStartOf="@+id/rubixCube" />
+        android:layout_toStartOf="@+id/rubixCube"
+        android:background="@drawable/left_arrow" />
 
     <Button
+        android:id="@+id/rowFourButton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="{"
-        android:id="@+id/rowFourButton"
         android:layout_alignBottom="@+id/rubixCube"
         android:layout_alignLeft="@+id/rowThreeButton"
-        android:layout_alignStart="@+id/rowThreeButton" />
+        android:layout_alignStart="@+id/rowThreeButton"
+        android:background="@drawable/left_arrow" />
 
     <Button
+        android:id="@+id/columnOneButton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="^"
-        android:id="@+id/columnOneButton"
         android:layout_above="@+id/rubixCube"
         android:layout_alignLeft="@+id/rubixCube"
-        android:layout_alignStart="@+id/rubixCube" />
+        android:layout_alignStart="@+id/rubixCube"
+        android:background="@drawable/up_arrow" />
 
     <Button
+        android:id="@+id/columnTwoButton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="^"
-        android:id="@+id/columnTwoButton"
         android:layout_above="@+id/rowOneButton"
         android:layout_toLeftOf="@+id/rowOneButton"
-        android:layout_toStartOf="@+id/rowOneButton" />
+        android:layout_toStartOf="@+id/rowOneButton"
+        android:background="@drawable/up_arrow" />
 
     <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="V"
         android:id="@+id/columnThreeButton"
-        android:layout_below="@+id/rubixCube"
-        android:layout_alignLeft="@+id/rubixCube"
-        android:layout_alignStart="@+id/rubixCube" />
-
-    <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="V"
+        android:layout_alignLeft="@+id/rubixCube"
+        android:layout_alignStart="@+id/rubixCube"
+        android:layout_below="@+id/rubixCube"
+        android:background="@drawable/down_arrow" />
+
+    <Button
         android:id="@+id/columnFourButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/rowTwoButton"
         android:layout_toLeftOf="@+id/rowTwoButton"
-        android:layout_toStartOf="@+id/rowTwoButton" />
+        android:layout_toStartOf="@+id/rowTwoButton"
+        android:background="@drawable/down_arrow" />
 
     <!--TODO Figure this fucking piece of bullshit out, goddammit.-->
     <!--com.facebook.login.widget.LoginButton
