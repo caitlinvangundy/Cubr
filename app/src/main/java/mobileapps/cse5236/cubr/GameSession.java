@@ -4,15 +4,11 @@ package mobileapps.cse5236.cubr;
  * Created by Caitlin on 3/27/2015.
  */
 
-import java.io.File;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,10 +31,8 @@ public class GameSession extends Activity {
     private Timer timer;
     private TextView timerView;
 
-    //runs without a timer by reposting this handler at the end of the runnable
     Handler timerHandler = new Handler();
     Runnable timerRunnable = new Runnable() {
-
         @Override
         public void run() {
             timerView.setText(timer.toString());
@@ -59,6 +53,77 @@ public class GameSession extends Activity {
         setupShaker();
     }
 
+    @Override
+    public void onResume() {
+        System.out.println("onResume");
+        super.onResume();
+        playNewGame();
+        mShaker.resume();
+    }
+
+    @Override
+    public void onStop() {
+        System.out.println("onStop");
+        super.onStop();
+    }
+
+    @Override
+    public void onPause() {
+        System.out.println("onPause");
+        super.onPause();
+        mShaker.pause();
+    }
+
+    @Override
+    public void onDestroy() {
+        System.out.println("onDestroy");
+        super.onDestroy();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.colorBlindMode:
+                isColorBlindModeOn = !isColorBlindModeOn;
+                applyColorOrImageChanges();
+                return true;
+        }
+        return false;
+    }
+
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // TODO
+    }
+
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // TODO
+    }
+
+    private void playNewGame() {
+        timer = new Timer();
+
+        topLeft = (ImageView) findViewById(R.id.topLeft);
+        topRight = (ImageView) findViewById(R.id.topRight);
+        bottomLeft = (ImageView) findViewById(R.id.bottomLeft);
+        bottomRight = (ImageView) findViewById(R.id.bottomRight);
+
+        cube = new Cube();
+        cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).imageView = topLeft;
+        cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).imageView = topRight;
+        cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).imageView = bottomLeft;
+        cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).imageView = bottomRight;
+
+        applyColorOrImageChanges();
+    }
+
     private void setupShaker() {
         mShaker = new ShakeListener(this);
         mShaker.setOnShakeListener(new ShakeListener.OnShakeListener() {
@@ -67,6 +132,86 @@ public class GameSession extends Activity {
                 timer.start();
             }
         });
+    }
+
+    private void applyColorOrImageChanges() {
+        if(isColorBlindModeOn){
+            setImage();
+        } else {
+            setCurrentColor();
+        }
+    }
+
+    private void resetCube(){
+        Random rand = new Random();
+        int n = rand.nextInt(4);
+        for(int i = 0; i < n; i++){
+            cube.rotateRow(0, "Right");
+        }
+        n = rand.nextInt(4);
+        for(int i = 0; i < n; i++){
+            cube.rotateColumn(1, "Up");
+        }
+        n = rand.nextInt(4);
+        for(int i = 0; i < n; i++){
+            cube.rotateRow(1, "Left");
+        }
+        n = rand.nextInt(4);
+        for(int i = 0; i < n; i++){
+            cube.rotateColumn(0, "Down");
+        }
+        applyColorOrImageChanges();
+    }
+
+    private void setImage() {
+        String image = cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).image;
+        setImageFromCurrentImageValue(image, topLeft);
+        image = cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).image;
+        setImageFromCurrentImageValue(image, topRight);
+        image = cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).image;
+        setImageFromCurrentImageValue(image, bottomLeft);
+        image = cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).image;
+        setImageFromCurrentImageValue(image, bottomRight);
+    }
+
+    private void setImageFromCurrentImageValue(String image, ImageView iv) {
+        switch (image) {
+            case "circle":
+                iv.setImageResource(R.drawable.circle);
+                break;
+            case "heart":
+                iv.setImageResource(R.drawable.heart);
+                break;
+            case "square":
+                iv.setImageResource(R.drawable.square);
+                break;
+            case "star":
+                iv.setImageResource(R.drawable.star);
+                break;
+            case "triangle":
+                iv.setImageResource(R.drawable.triangle);
+                break;
+            case "x":
+                iv.setImageResource(R.drawable.x);
+                break;
+            default:
+                System.out.println("Incorrect image");
+        }
+    }
+
+    private void setCurrentColor() {
+        topLeft.setImageDrawable(null);
+        topRight.setImageDrawable(null);
+        bottomLeft.setImageDrawable(null);
+        bottomRight.setImageDrawable(null);
+        cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).imageView = topLeft;
+        cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).imageView = topRight;
+        cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).imageView = bottomLeft;
+        cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).imageView = bottomRight;
+        topLeft.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).color);
+        topRight.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).color);
+        bottomLeft.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).color);
+        bottomRight.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).color);
     }
 
     private void setupButtons() {
@@ -284,130 +429,6 @@ public class GameSession extends Activity {
         });
     }
 
-    @Override
-    public void onResume() {
-        System.out.println("onResume");
-        super.onResume();
-        playNewGame();
-        mShaker.resume();
-    }
-
-    @Override
-    public void onStop() {
-        System.out.println("onStop");
-        super.onStop();
-    }
-
-    @Override
-    public void onPause() {
-        System.out.println("onPause");
-        super.onPause();
-        mShaker.pause();
-    }
-
-    @Override
-    public void onDestroy() {
-        System.out.println("onDestroy");
-        super.onDestroy();
-    }
-
-    private void playNewGame() {
-        timer = new Timer();
-
-        topLeft = (ImageView) findViewById(R.id.topLeft);
-        topRight = (ImageView) findViewById(R.id.topRight);
-        bottomLeft = (ImageView) findViewById(R.id.bottomLeft);
-        bottomRight = (ImageView) findViewById(R.id.bottomRight);
-
-        cube = new Cube();
-        cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).imageView = topLeft;
-        cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).imageView = topRight;
-        cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).imageView = bottomLeft;
-        cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).imageView = bottomRight;
-
-        applyColorOrImageChanges();
-    }
-
-    private void applyColorOrImageChanges() {
-        if(isColorBlindModeOn){
-            setImage();
-        } else {
-            setCurrentColor();
-        }
-    }
-
-    private void resetCube(){
-        Random rand = new Random();
-        int n = rand.nextInt(4);
-        for(int i = 0; i < n; i++){
-            cube.rotateRow(0, "Right");
-        }
-        n = rand.nextInt(4);
-        for(int i = 0; i < n; i++){
-            cube.rotateColumn(1, "Up");
-        }
-        n = rand.nextInt(4);
-        for(int i = 0; i < n; i++){
-            cube.rotateRow(1, "Left");
-        }
-        n = rand.nextInt(4);
-        for(int i = 0; i < n; i++){
-            cube.rotateColumn(0, "Down");
-        }
-        applyColorOrImageChanges();
-    }
-
-    private void setImage() {
-        String image = cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).image;
-        setImageFromCurrentImageValue(image, topLeft);
-        image = cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).image;
-        setImageFromCurrentImageValue(image, topRight);
-        image = cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).image;
-        setImageFromCurrentImageValue(image, bottomLeft);
-        image = cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).image;
-        setImageFromCurrentImageValue(image, bottomRight);
-    }
-
-    private void setImageFromCurrentImageValue(String image, ImageView iv) {
-        switch (image) {
-            case "circle":
-                iv.setImageResource(R.drawable.circle);
-                break;
-            case "heart":
-                iv.setImageResource(R.drawable.heart);
-                break;
-            case "square":
-                iv.setImageResource(R.drawable.square);
-                break;
-            case "star":
-                iv.setImageResource(R.drawable.star);
-                break;
-            case "triangle":
-                iv.setImageResource(R.drawable.triangle);
-                break;
-            case "x":
-                iv.setImageResource(R.drawable.x);
-                break;
-            default:
-                System.out.println("Incorrect image");
-        }
-    }
-
-    private void setCurrentColor() {
-        topLeft.setImageDrawable(null);
-        topRight.setImageDrawable(null);
-        bottomLeft.setImageDrawable(null);
-        bottomRight.setImageDrawable(null);
-        cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).imageView = topLeft;
-        cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).imageView = topRight;
-        cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).imageView = bottomLeft;
-        cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).imageView = bottomRight;
-        topLeft.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(0).squares.get(0).color);
-        topRight.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).color);
-        bottomLeft.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).color);
-        bottomRight.setBackgroundColor(cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).color);
-    }
-
     private void quitGame() {
         new AlertDialog.Builder(this)
                 .setTitle("Exit")
@@ -448,40 +469,6 @@ public class GameSession extends Activity {
                 })
                 .show();
 
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.colorBlindMode:
-                isColorBlindModeOn = !isColorBlindModeOn;
-                applyColorOrImageChanges();
-                return true;
-        }
-        return false;
-    }
-
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        // Save session score
-        //outState.putInt(SCOREPLAYERONEKEY, scorePlayerOne);
-        // Save turn
-        //Save board
-    }
-
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        // Restore session score
-        //scorePlayerOne = savedInstanceState.getInt(SCOREPLAYERONEKEY);
-        // Restore turn
-
-        // Restore board
     }
 }
 
