@@ -4,15 +4,11 @@ package mobileapps.cse5236.cubr;
  * Created by Caitlin on 3/27/2015.
  */
 
-import java.io.File;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,8 +30,8 @@ public class GameSession extends Activity {
     private ShakeListener mShaker;
     private Timer timer;
     private TextView timerView;
+    //private final String ELAPSEDTIME = "ElapsedTime";
 
-    //runs without a timer by reposting this handler at the end of the runnable
     Handler timerHandler = new Handler();
     Runnable timerRunnable = new Runnable() {
 
@@ -52,7 +48,11 @@ public class GameSession extends Activity {
         //FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.rubix_cube);
         timerView = (TextView) findViewById(R.id.timer);
+
+        timer = new Timer();
+        timer.start();
         timerHandler.postDelayed(timerRunnable, 0);
+
         playNewGame();
         activeGame = new Game(cube);
         setupButtons();
@@ -63,6 +63,8 @@ public class GameSession extends Activity {
         mShaker = new ShakeListener(this);
         mShaker.setOnShakeListener(new ShakeListener.OnShakeListener() {
             public void onShake() {
+                timer = new Timer();
+                timer.start();
                 resetCube();
             }
         });
@@ -286,20 +288,22 @@ public class GameSession extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        playNewGame();
+        System.out.println("onResume");
+        timer.start();
         mShaker.resume();
     }
 
     @Override
     public void onStop() {
-        System.out.println("onStop");
         super.onStop();
+        System.out.println("onStop");
     }
 
     @Override
     public void onPause() {
-        System.out.println("onPause");
         super.onPause();
+        System.out.println("onPause");
+        timer.stop();
         mShaker.pause();
     }
 
@@ -310,9 +314,6 @@ public class GameSession extends Activity {
     }
 
     private void playNewGame() {
-        timer = new Timer();
-        timer.start();
-
         topLeft = (ImageView) findViewById(R.id.topLeft);
         topRight = (ImageView) findViewById(R.id.topRight);
         bottomLeft = (ImageView) findViewById(R.id.bottomLeft);
@@ -466,21 +467,18 @@ public class GameSession extends Activity {
         return false;
     }
 
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        // Save session score
-        //outState.putInt(SCOREPLAYERONEKEY, scorePlayerOne);
-        // Save turn
-        //Save board
+        //outState.putLong(ELAPSEDTIME, timer.elapsedTime);
+        //System.out.println("Saved!");
     }
 
+    @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        // Restore session score
-        //scorePlayerOne = savedInstanceState.getInt(SCOREPLAYERONEKEY);
-        // Restore turn
-
-        // Restore board
+        //System.out.println("Loaded!");
+        //timer.elapsedTime = savedInstanceState.getLong(ELAPSEDTIME);
     }
 
     
