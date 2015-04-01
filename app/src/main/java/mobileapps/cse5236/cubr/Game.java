@@ -27,6 +27,8 @@ public class Game {
     private void checkResultAndSetState() {
         if (allSidesComplete()) {
             gameState = STATE.Won;
+        } else {
+            gameState = STATE.Active;
         }
     }
 

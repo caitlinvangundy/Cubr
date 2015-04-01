@@ -92,7 +92,9 @@ public class GameSession extends Activity {
     public void onResume() {
         super.onResume();
         System.out.println("onResume");
-        timer.start();
+        if(!activeGame.isWon()) {
+            timer.start();
+        }
         mShaker.resume();
 
         // Logs 'install' and 'app activate' App Events.
@@ -356,6 +358,7 @@ public class GameSession extends Activity {
                 } else {
                     setCurrentColor();
                 }
+                proceedToFinish();
             }
         });
 
@@ -372,6 +375,7 @@ public class GameSession extends Activity {
                 } else {
                     setCurrentColor();
                 }
+                proceedToFinish();
             }
         });
 
@@ -388,6 +392,7 @@ public class GameSession extends Activity {
                 } else {
                     setCurrentColor();
                 }
+                proceedToFinish();
             }
 
         });
@@ -405,6 +410,7 @@ public class GameSession extends Activity {
                 } else {
                     setCurrentColor();
                 }
+                proceedToFinish();
             }
         });
 
@@ -421,6 +427,7 @@ public class GameSession extends Activity {
                 } else {
                     setCurrentColor();
                 }
+                proceedToFinish();
             }
         });
 
@@ -437,6 +444,7 @@ public class GameSession extends Activity {
                 } else {
                     setCurrentColor();
                 }
+                proceedToFinish();
             }
         });
 
@@ -453,6 +461,7 @@ public class GameSession extends Activity {
                 } else {
                     setCurrentColor();
                 }
+                proceedToFinish();
             }
         });
 
@@ -469,6 +478,7 @@ public class GameSession extends Activity {
                 } else {
                     setCurrentColor();
                 }
+                proceedToFinish();
             }
         });
     }
@@ -477,6 +487,8 @@ public class GameSession extends Activity {
         String alertMessage = null;
         if (activeGame.isWon()) {
             alertMessage = " You've won!";
+        } else {
+            return;
         }
         new AlertDialog.Builder(this)
                 .setTitle(alertMessage)
