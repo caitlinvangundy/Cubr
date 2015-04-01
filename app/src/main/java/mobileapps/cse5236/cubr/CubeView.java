@@ -106,57 +106,57 @@ public class CubeView {
 
     public void changeView(Face clickedFace) {
         Face tempCurrent = currentFace;
-        switch (clickedFace.getType()) {
-            case "Left":
-                currentFace = leftFace;
-                currentFace.faceIndex = 0;
-                leftFace = backFace;
-                leftFace.faceIndex = 3;
-                backFace = rightFace;
-                backFace.faceIndex = 2;
-                rightFace = tempCurrent;
-                rightFace.faceIndex = 1;
-                topFace.rotateCounterClockwise();
-                bottomFace.rotateClockwise();
-                break;
-            case "Right":
-                currentFace = rightFace;
-                currentFace.faceIndex = 0;
-                rightFace = backFace;
-                rightFace.faceIndex = 1;
-                backFace = leftFace;
-                backFace.faceIndex = 2;
-                leftFace = tempCurrent;
-                leftFace.faceIndex = 3;
-                topFace.rotateClockwise();
-                bottomFace.rotateCounterClockwise();
-                break;
-            case "Top":
-                currentFace = topFace;
-                currentFace.faceIndex = 0;
-                topFace = backFace;
-                topFace.faceIndex = 4;
-                backFace = bottomFace;
-                backFace.faceIndex = 2;
-                bottomFace = tempCurrent;
-                bottomFace.faceIndex = 5;
-                leftFace.rotateClockwise();
-                rightFace.rotateCounterClockwise();
-                break;
-            case "Bottom":
-                currentFace = bottomFace;
-                currentFace.faceIndex = 0;
-                bottomFace = backFace;
-                bottomFace.faceIndex = 5;
-                backFace = topFace;
-                backFace.faceIndex = 2;
-                topFace = tempCurrent;
-                topFace.faceIndex = 4;
-                leftFace.rotateCounterClockwise();
-                rightFace.rotateClockwise();
-                break;
-            default:
-                System.out.println("Incorrect face");
+        String s = clickedFace.getType();
+        if (s.equals("Left")) {
+            currentFace = leftFace;
+            currentFace.faceIndex = 0;
+            leftFace = backFace;
+            leftFace.faceIndex = 3;
+            backFace = rightFace;
+            backFace.faceIndex = 2;
+            rightFace = tempCurrent;
+            rightFace.faceIndex = 1;
+            topFace.rotateCounterClockwise();
+            bottomFace.rotateClockwise();
+
+        } else if (s.equals("Right")) {
+            currentFace = rightFace;
+            currentFace.faceIndex = 0;
+            rightFace = backFace;
+            rightFace.faceIndex = 1;
+            backFace = leftFace;
+            backFace.faceIndex = 2;
+            leftFace = tempCurrent;
+            leftFace.faceIndex = 3;
+            topFace.rotateClockwise();
+            bottomFace.rotateCounterClockwise();
+
+        } else if (s.equals("Top")) {
+            currentFace = topFace;
+            currentFace.faceIndex = 0;
+            topFace = backFace;
+            topFace.faceIndex = 4;
+            backFace = bottomFace;
+            backFace.faceIndex = 2;
+            bottomFace = tempCurrent;
+            bottomFace.faceIndex = 5;
+            leftFace.rotateClockwise();
+            rightFace.rotateCounterClockwise();
+
+        } else if (s.equals("Bottom")) {
+            currentFace = bottomFace;
+            currentFace.faceIndex = 0;
+            bottomFace = backFace;
+            bottomFace.faceIndex = 5;
+            backFace = topFace;
+            backFace.faceIndex = 2;
+            topFace = tempCurrent;
+            topFace.faceIndex = 4;
+            leftFace.rotateCounterClockwise();
+            rightFace.rotateClockwise();
+
+        } else {
+            System.out.println("Incorrect face");
         }
     }
 
