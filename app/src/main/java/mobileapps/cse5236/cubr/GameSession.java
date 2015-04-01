@@ -38,7 +38,6 @@ public class GameSession extends Activity {
     private ShakeListener mShaker;
     private Timer timer;
     private TextView timerView;
-    //private final String ELAPSEDTIME = "ElapsedTime";
 
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
@@ -60,7 +59,6 @@ public class GameSession extends Activity {
         timerView = (TextView) findViewById(R.id.timer);
 
         timer = new Timer();
-        //timer.start();
         timerHandler.postDelayed(timerRunnable, 0);
 
         playNewGame();
@@ -94,7 +92,7 @@ public class GameSession extends Activity {
     public void onResume() {
         super.onResume();
         System.out.println("onResume");
-        //timer.start();
+        timer.start();
         mShaker.resume();
 
         // Logs 'install' and 'app activate' App Events.
