@@ -16,7 +16,7 @@ public class Face {
         size = 2;
         rows = new ArrayList<Row>();
         for (int i = 0; i < size; i++) {
-            rows.add(i, new Row(colorIndex, i));
+            rows.add(i, new Row(colorIndex));
         }
     }
 

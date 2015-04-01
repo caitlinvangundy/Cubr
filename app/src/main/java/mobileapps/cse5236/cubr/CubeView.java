@@ -23,7 +23,7 @@ public class CubeView {
     public void rotateColumn(int index, String direction) {
         Square tempCurrentTopRow = currentFace.rows.get(0).squares.get(index);
         Square tempCurrentBottomRow = currentFace.rows.get(1).squares.get(index);
-        if ("Up".equals(direction)) {
+        if ("Down".equals(direction)) {
             currentFace.rows.get(0).squares.set(index, bottomFace.rows.get(0).squares.get(index));
             currentFace.rows.get(1).squares.set(index, bottomFace.rows.get(1).squares.get(index));
 
@@ -41,7 +41,7 @@ public class CubeView {
             } else if(index == 1) {
                 rightFace.rotateClockwise();
             }
-        } else if ("Down".equals(direction)) {
+        } else if ("Up".equals(direction)) {
             currentFace.rows.get(0).squares.set(index, topFace.rows.get(0).squares.get(index));
             currentFace.rows.get(1).squares.set(index, topFace.rows.get(1).squares.get(index));
 
@@ -63,16 +63,20 @@ public class CubeView {
     }
 
     public void rotateRow(int index, String direction) {
-        //Row tempCurrent = currentFace.rows.get(index);
-        Square tempCurrentTop = currentFace.rows.get(index).squares.get(0);
-        Square tempCurrentBottom = currentFace.rows.get(index).squares.get(1);
+        Square tempCurrentLeft = currentFace.rows.get(index).squares.get(0);
+        Square tempCurrentRight = currentFace.rows.get(index).squares.get(1);
         if ("Right".equals(direction)) {
-            // TODO What about the top and bottom faces?
-            currentFace.rows.set(index, leftFace.rows.get(index));
-            leftFace.rows.set(index, backFace.rows.get(index));
-            backFace.rows.set(index, rightFace.rows.get(index));
-            rightFace.rows.get(index).squares.set(0, tempCurrentTop);
-            rightFace.rows.get(index).squares.set(1, tempCurrentBottom);
+            currentFace.rows.get(index).squares.set(0, leftFace.rows.get(index).squares.get(0));
+            currentFace.rows.get(index).squares.set(1, leftFace.rows.get(index).squares.get(1));
+
+            leftFace.rows.get(index).squares.set(0, backFace.rows.get(index).squares.get(0));
+            leftFace.rows.get(index).squares.set(1, backFace.rows.get(index).squares.get(1));
+
+            backFace.rows.get(index).squares.set(0, rightFace.rows.get(index).squares.get(0));
+            backFace.rows.get(index).squares.set(1, rightFace.rows.get(index).squares.get(1));
+
+            rightFace.rows.get(index).squares.set(0, tempCurrentLeft);
+            rightFace.rows.get(index).squares.set(1, tempCurrentRight);
 
             if(index == 0) {
                 topFace.rotateCounterClockwise();
@@ -80,11 +84,17 @@ public class CubeView {
                 bottomFace.rotateClockwise();
             }
         } else if ("Left".equals(direction)) {
-            currentFace.rows.set(index, rightFace.rows.get(index));
-            rightFace.rows.set(index, backFace.rows.get(index));
-            backFace.rows.set(index, leftFace.rows.get(index));
-            leftFace.rows.get(index).squares.set(0, tempCurrentTop);
-            leftFace.rows.get(index).squares.set(1, tempCurrentBottom);
+            currentFace.rows.get(index).squares.set(0, rightFace.rows.get(index).squares.get(0));
+            currentFace.rows.get(index).squares.set(1, rightFace.rows.get(index).squares.get(1));
+
+            rightFace.rows.get(index).squares.set(0, backFace.rows.get(index).squares.get(0));
+            rightFace.rows.get(index).squares.set(1, backFace.rows.get(index).squares.get(1));
+
+            backFace.rows.get(index).squares.set(0, leftFace.rows.get(index).squares.get(0));
+            backFace.rows.get(index).squares.set(1, leftFace.rows.get(index).squares.get(1));
+
+            leftFace.rows.get(index).squares.set(0, tempCurrentLeft);
+            leftFace.rows.get(index).squares.set(1, tempCurrentRight);
 
             if(index == 0) {
                 topFace.rotateClockwise();
@@ -97,7 +107,6 @@ public class CubeView {
     public void changeView(Face clickedFace) {
         Face tempCurrent = currentFace;
         switch (clickedFace.getType()) {
-            // TODO Might be missing logic to flip faces
             case "Left":
                 currentFace = leftFace;
                 currentFace.faceIndex = 0;
