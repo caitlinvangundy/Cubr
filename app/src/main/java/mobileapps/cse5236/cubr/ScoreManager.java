@@ -6,6 +6,7 @@ import java.io.*;
  */
 public class ScoreManager {
     private ArrayList<Score> highScores;
+    private int maxScores = 10;
     private static final String CUBR_HIGHSCORE_FILE = "cubr_highscores.dat";
 
     ObjectOutputStream out = null;
@@ -27,7 +28,10 @@ public class ScoreManager {
     }
 
     public void addHighScore(Score highScore){
-        loadHighScoreFile();
+        highScores = getHighScores();
+        if(highScores.size() >= maxScores) {
+            highScores.remove(maxScores - 1);
+        }
         highScores.add(highScore);
         writeHighScoreFile();
     }
