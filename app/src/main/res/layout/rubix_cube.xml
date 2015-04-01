@@ -85,13 +85,22 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="High Scores"
+        android:id="@+id/highScoreButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true" />
+
+    <Button
         android:id="@+id/exitButton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Exit" />
+        android:text="Exit"
+        android:layout_alignParentRight="true" />
 
     <!-- Row and Column rotation buttons-->
     <Button
