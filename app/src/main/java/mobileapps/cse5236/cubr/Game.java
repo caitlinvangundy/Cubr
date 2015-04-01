@@ -20,10 +20,11 @@ public class Game {
     }
 
     public boolean isWon() {
+        checkResultAndSetState();
         return gameState == STATE.Won;
     }
 
-    public void checkResultAndSetState() {
+    private void checkResultAndSetState() {
         if (allSidesComplete()) {
             gameState = STATE.Won;
         }

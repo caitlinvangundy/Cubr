@@ -270,7 +270,7 @@ public class GameSession extends Activity {
                     ShareLinkContent linkContent = new ShareLinkContent.Builder()
                             .setContentTitle("I beat Cubr!")
                             .setContentDescription(
-                                    "I got a new highscore on Cubr. My new highscore is: ")
+                                    "I got a new high score on Cubr. My new best time is: ")
                             .setContentUrl((Uri.parse("http://web.cse.ohio-state.edu/~champion/5236/")))
                             .build();
 
@@ -473,29 +473,10 @@ public class GameSession extends Activity {
         });
     }
 
-    private void quitGame() {
-        new AlertDialog.Builder(this)
-                .setTitle("Exit")
-                .setMessage("Abandon this game?")
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .show();
-    }
-
     private void proceedToFinish() {
         String alertMessage = null;
         if (activeGame.isWon()) {
             alertMessage = " You've won!";
-            //cubeView.setGameStatus(alertMessage);
-            //cubeView.showScores(firstPlayerName, scorePlayerOne, secondPlayerName, scorePlayerTwo);
         }
         new AlertDialog.Builder(this)
                 .setTitle(alertMessage)
