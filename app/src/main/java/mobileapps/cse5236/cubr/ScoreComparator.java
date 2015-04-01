@@ -5,8 +5,8 @@ import java.util.Comparator;
  */
 public class ScoreComparator implements Comparator<Score>{
     public int compare (Score a, Score b){
-        int scoreA = a.getScore();
-        int scoreB = b.getScore();
+        long scoreA = a.getScore();
+        long scoreB = b.getScore();
 
         if(scoreA > scoreB)
         {
