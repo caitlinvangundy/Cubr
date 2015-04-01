@@ -8,9 +8,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,6 +27,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 
+import java.io.File;
 import java.util.Random;
 
 public class GameSession extends Activity {
@@ -38,6 +41,7 @@ public class GameSession extends Activity {
     private ShakeListener mShaker;
     private Timer timer;
     private TextView timerView;
+    //private final String ELAPSEDTIME = "ElapsedTime";
 
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
@@ -59,6 +63,7 @@ public class GameSession extends Activity {
         timerView = (TextView) findViewById(R.id.timer);
 
         timer = new Timer();
+        //timer.start();
         timerHandler.postDelayed(timerRunnable, 0);
 
         playNewGame();
@@ -69,6 +74,14 @@ public class GameSession extends Activity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if(!prefs.getBoolean("createScoresFileBool", false)){
+            File highScoresFile = new File(this.getFilesDir(),"cubr_highscores.dat");
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("createScoresFileBool", true);
+            editor.commit();
+        }
     }
 
     @Override
@@ -144,11 +157,15 @@ public class GameSession extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        //outState.putLong(ELAPSEDTIME, timer.elapsedTime);
+        //System.out.println("Saved!");
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        //System.out.println("Loaded!");
+        //timer.elapsedTime = savedInstanceState.getLong(ELAPSEDTIME);
     }
 
     private void playNewGame() {
