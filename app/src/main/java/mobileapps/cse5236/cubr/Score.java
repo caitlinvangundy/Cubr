@@ -5,17 +5,17 @@ import java.io.Serializable;
  */
 public class Score implements Serializable{
     private String name;
-    private int score;
+    private long score;
 
     public String getName(){
         return name;
     }
 
-    public int getScore(){
+    public long getScore(){
         return score;
     }
 
-    public Score(String name, int score){
+    public Score(String name, long score){
         this.name = name;
         this.score = score;
     }
