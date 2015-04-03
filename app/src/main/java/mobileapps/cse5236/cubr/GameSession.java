@@ -49,6 +49,7 @@ public class GameSession extends Activity {
     private Timer timer;
     private TextView timerView;
     private String path;
+    private ScoreManager manager;
     //private final String ELAPSEDTIME = "ElapsedTime";
 
     private CallbackManager callbackManager;
@@ -89,6 +90,7 @@ public class GameSession extends Activity {
 
             File external = getFilesDir();
             path = external.getPath();
+            manager = new ScoreManager(path);
             File highScoresFile = new File(path + "cubr_highscores.dat");
             try {
                 highScoresFile.createNewFile();
@@ -100,9 +102,6 @@ public class GameSession extends Activity {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("createScoresFileBool", true);
             editor.commit();
-
-            ScoreManager manager = new ScoreManager(path);
-
        // }
     }
 
@@ -290,7 +289,6 @@ public class GameSession extends Activity {
             @Override
             public void onClick(View v) {
                 System.out.println("High scores button clicked");
-
                 setContentView(R.layout.high_score_dialog);
 
                 final AlertDialog highScoreDialog = new AlertDialog.Builder(GS).create();
@@ -304,7 +302,6 @@ public class GameSession extends Activity {
                 ListView lv;
                 lv = (ListView) findViewById(R.id.highScoreListView);
 
-                ScoreManager manager = new ScoreManager(path);
                 ArrayList<Score> highScores = manager.getHighScores();
                 ArrayList<String> textScores = new ArrayList<String>();
                 for(int i=0; i<highScores.size(); i++){
@@ -321,7 +318,7 @@ public class GameSession extends Activity {
                 highScoreDialog.show();
 
                 setContentView(R.layout.rubix_cube);
-                onCreate(null);
+                onCreate(null); // TODO this resets the cube
             }
         });
 
@@ -332,10 +329,15 @@ public class GameSession extends Activity {
             public void onClick(View v) {
                 System.out.println("Share button clicked");
                 if (ShareDialog.canShow(ShareLinkContent.class)) {
+                    Score score = manager.getCurrentHighScore();
+                    float highScore = 0;
+                    if (null != score){
+                        highScore = score.getScore();
+                    }
                     ShareLinkContent linkContent = new ShareLinkContent.Builder()
                             .setContentTitle("I beat Cubr!")
                             .setContentDescription(
-                                    "I got a new high score on Cubr. My new best time is: ")
+                                    "I got a new high score on Cubr. My new best time is: " + highScore)
                             .setContentUrl((Uri.parse("http://web.cse.ohio-state.edu/~champion/5236/")))
                             .build();
 
@@ -514,7 +516,6 @@ public class GameSession extends Activity {
         if (activeGame.isWon()) {
             alertMessage = " You've won!";
             timer.stop();
-            ScoreManager manager = new ScoreManager(path);
             Score newHighScore = new Score("User", timer.elapsedTime);
             manager.addHighScore(newHighScore);
         } else {
