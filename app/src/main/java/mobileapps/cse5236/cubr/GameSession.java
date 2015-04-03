@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,7 +35,9 @@ import com.facebook.share.widget.ShareDialog;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 public class GameSession extends Activity {
@@ -284,9 +287,15 @@ public class GameSession extends Activity {
                     int listNum = i+1;
 
                     time = String.valueOf(highScoreArray.get(i).getScore());
-                    System.out.println("Time: " + time);
+
+                    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss.SSS");
+                    Date dt = new Date();
+                    dt.setTime(highScoreArray.get(i).getScore());
+                    String strValue = timeFormat.format(dt);
+
+                    System.out.println("Time: " + strValue);
                     System.out.println("HighScoresSize: " + arraySize);
-                    textScore = (listNum) + ". " + time;
+                    textScore = (listNum) + ". " + strValue;
                     stringArrayScores[i] = textScore;
                 }
                 builder.setItems(stringArrayScores, new DialogInterface.OnClickListener(){
