@@ -18,8 +18,11 @@ public class ScoreManager {
         this.context = context;
         prefs = context.getSharedPreferences("cubr_highscores", Context.MODE_PRIVATE);
         editor = prefs.edit();
-        editor.putStringSet("highTimes", Collections.<String>emptySet());
-        editor.commit();
+        if(!prefs.getBoolean("createdPrefs",false)) {
+            editor.putStringSet("highTimes", Collections.<String>emptySet());
+            editor.putBoolean("createdPrefs",true);
+            editor.commit();
+        }
         highScores = new ArrayList<Score>();
     }
 
