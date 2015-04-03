@@ -48,6 +48,7 @@ public class GameSession extends Activity {
     private ShakeListener mShaker;
     private Timer timer;
     private TextView timerView;
+    private String path;
     //private final String ELAPSEDTIME = "ElapsedTime";
 
     private CallbackManager callbackManager;
@@ -85,24 +86,23 @@ public class GameSession extends Activity {
         System.out.println("GOT HERE: " + prefs.getBoolean("createScoresFileBool",false));
         //if(prefs.getBoolean("createScoresFileBool", false)){
             System.out.println("CREATESCORESBOOL: " + prefs.getBoolean("createScoresFileBool", false));
-            /*File highScoresFile = new File("cubr_highscores.dat");
+
+            File external = getFilesDir();
+            path = external.getPath();
+            File highScoresFile = new File(path + "cubr_highscores.dat");
             try {
                 highScoresFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
-            }*/
-
-            FileOutputStream outputStream = null;
-            try{
-                outputStream = openFileOutput("cubr_highscores.dat", Context.MODE_PRIVATE);
-                outputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+            FileOutputStream outputStream = null;
 
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("createScoresFileBool", true);
             editor.commit();
+
+            ScoreManager manager = new ScoreManager(path);
+
        // }
     }
 
@@ -321,7 +321,7 @@ public class GameSession extends Activity {
                 ListView lv;
                 lv = (ListView) findViewById(R.id.highScoreListView);
 
-                ScoreManager manager = new ScoreManager();
+                ScoreManager manager = new ScoreManager(path);
                 ArrayList<Score> highScores = manager.getHighScores();
                 ArrayList<String> textScores = new ArrayList<String>();
                 for(int i=0; i<highScores.size(); i++){

@@ -1,4 +1,6 @@
 package mobileapps.cse5236.cubr;
+import android.content.Context;
+
 import java.util.*;
 import java.io.*;
 /**
@@ -7,13 +9,15 @@ import java.io.*;
 public class ScoreManager {
     private ArrayList<Score> highScores;
     private int maxScores = 10;
-    private static final String CUBR_HIGHSCORE_FILE = "cubr_highscores.dat";
+    private String managerFilePath;
+    private String cubrHighScoreFile;
 
     ObjectOutputStream out = null;
     ObjectInputStream in = null;
 
-    public ScoreManager(){
+    public ScoreManager(String filePath){
         highScores = new ArrayList<Score>();
+        cubrHighScoreFile = filePath + "cubr_highscores.dat";
     }
 
     public ArrayList<Score> getHighScores(){
@@ -44,7 +48,7 @@ public class ScoreManager {
 
     public void loadHighScoreFile(){
         try{
-            in = new ObjectInputStream(new FileInputStream(CUBR_HIGHSCORE_FILE));
+            in = new ObjectInputStream(new FileInputStream(cubrHighScoreFile));
             highScores = (ArrayList<Score>) in.readObject();
         }catch (FileNotFoundException e){
             System.out.println("FILE NOT FOUND: " + e.getMessage());
@@ -57,7 +61,7 @@ public class ScoreManager {
 
     public void writeHighScoreFile(){
         try{
-            out = new ObjectOutputStream(new FileOutputStream(CUBR_HIGHSCORE_FILE));
+            out = new ObjectOutputStream(new FileOutputStream(cubrHighScoreFile));
             out.writeObject(highScores);
         }catch (FileNotFoundException e){
             System.out.println("FILE NOT FOUND: " + e.getMessage());
