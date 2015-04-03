@@ -102,8 +102,10 @@ public class GameSession extends Activity {
             editor.commit();
 
             ScoreManager manager = new ScoreManager(path);
+            ArrayList<Score> highScores = manager.getHighScores();
 
-       // }
+
+        // }
     }
 
     @Override

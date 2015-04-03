@@ -51,11 +51,11 @@ public class ScoreManager {
             in = new ObjectInputStream(new FileInputStream(cubrHighScoreFile));
             highScores = (ArrayList<Score>) in.readObject();
         }catch (FileNotFoundException e){
-            System.out.println("FILE NOT FOUND: " + e.getMessage());
+            System.out.println("FILE NOT FOUND: " + e.getStackTrace());
         }catch (IOException e){
-            System.out.println("IO EXCEPTION: " + e.getMessage());
+            System.out.println("IO EXCEPTION: " + e.getStackTrace());
         }catch (ClassNotFoundException e){
-            System.out.println("CLASS NOT FOUND: " + e.getMessage());
+            System.out.println("CLASS NOT FOUND: " + e.getStackTrace());
         }
     }
 
@@ -64,9 +64,9 @@ public class ScoreManager {
             out = new ObjectOutputStream(new FileOutputStream(cubrHighScoreFile));
             out.writeObject(highScores);
         }catch (FileNotFoundException e){
-            System.out.println("FILE NOT FOUND: " + e.getMessage());
+            System.out.println("FILE NOT FOUND: " + e.getStackTrace());
         }catch (IOException e) {
-            System.out.println("IO EXCEPTION: " + e.getMessage());
+            System.out.println("IO EXCEPTION: " + e.getStackTrace());
         }
     }
 }
