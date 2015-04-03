@@ -33,7 +33,9 @@ public class ScoreManager {
     }
 
     public ArrayList<Score> getHighScores() {
-        loadHighScoreFile();
+        if (highScores.isEmpty()){
+            loadHighScoreFile();
+        }
         sort();
         return highScores;
     }
