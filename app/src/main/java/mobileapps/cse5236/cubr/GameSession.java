@@ -64,14 +64,13 @@ public class GameSession extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rubix_cube);
-        timerView = (TextView) findViewById(R.id.timer);
 
-        timer = new Timer();
+        playNewGame();
+        timerView = (TextView) findViewById(R.id.timer);
         //timer.start();
         timerHandler.postDelayed(timerRunnable, 0);
 
-        playNewGame();
-        activeGame = new Game(cube);
+        //activeGame = new Game(cube);
         setupButtons();
         setupShaker();
 
@@ -175,6 +174,8 @@ public class GameSession extends Activity {
     }
 
     private void playNewGame() {
+        timer = new Timer();
+        timer.start();
         topLeft = (ImageView) findViewById(R.id.topLeft);
         topRight = (ImageView) findViewById(R.id.topRight);
         bottomLeft = (ImageView) findViewById(R.id.bottomLeft);
@@ -185,6 +186,8 @@ public class GameSession extends Activity {
         cube.getCubeView().getCurrentFace().rows.get(0).squares.get(1).imageView = topRight;
         cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).imageView = bottomLeft;
         cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).imageView = bottomRight;
+        activeGame = new Game(cube);
+        resetCube();
 
         applyColorOrImageChanges();
     }
@@ -504,6 +507,7 @@ public class GameSession extends Activity {
         String alertMessage = null;
         if (activeGame.isWon()) {
             alertMessage = " You've won!";
+            timer.stop();
         } else {
             return;
         }
