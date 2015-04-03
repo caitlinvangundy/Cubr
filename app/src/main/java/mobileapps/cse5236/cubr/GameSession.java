@@ -186,7 +186,7 @@ public class GameSession extends Activity {
         cube.getCubeView().getCurrentFace().rows.get(1).squares.get(0).imageView = bottomLeft;
         cube.getCubeView().getCurrentFace().rows.get(1).squares.get(1).imageView = bottomRight;
         activeGame = new Game(cube);
-        resetCube();
+        cube.rotateColumn(0, "Up");//resetCube();
 
         applyColorOrImageChanges();
     }
