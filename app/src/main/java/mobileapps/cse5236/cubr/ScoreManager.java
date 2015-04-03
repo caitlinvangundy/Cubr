@@ -1,5 +1,6 @@
 package mobileapps.cse5236.cubr;
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.util.*;
 import java.io.*;
@@ -9,18 +10,23 @@ import java.io.*;
 public class ScoreManager {
     private ArrayList<Score> highScores;
     private int maxScores = 10;
-    private String cubrHighScoreFile;
-    private ObjectOutputStream out = null;
-    private ObjectInputStream in = null;
+    Context context = null;
+    SharedPreferences prefs = null;
+    SharedPreferences.Editor editor = null;
 
-    public ScoreManager(String filePath) {
+    public ScoreManager(Context context) {
+        this.context = context;
+        prefs = context.getSharedPreferences("cubr_highscores", Context.MODE_PRIVATE);
+        editor = prefs.edit();
+        editor.putStringSet("highTimes", Collections.<String>emptySet());
+        editor.commit();
         highScores = new ArrayList<Score>();
-        cubrHighScoreFile = filePath + "cubr_highscores.dat";
     }
 
     public Score getCurrentHighScore() {
         getHighScores();
         if (!highScores.isEmpty()) {
+            sort();
             return highScores.get(0);
         }
         return null;
@@ -38,37 +44,44 @@ public class ScoreManager {
     }
 
     public void addHighScore(Score highScore) {
-        highScores = getHighScores();
         if (highScores.size() >= maxScores) {
             highScores.remove(maxScores - 1);
         }
+        System.out.println("Adding Score: "+highScore.getScore());
         highScores.add(highScore);
+        System.out.println("highscores array: " + highScores.toString());
         writeHighScoreFile();
     }
 
     private void loadHighScoreFile() {
-        try {
-            in = new ObjectInputStream(new FileInputStream(cubrHighScoreFile));
-            highScores = (ArrayList<Score>) in.readObject();
-            in.close();
-        }catch (FileNotFoundException e){
-            System.out.println("FILE NOT FOUND: " + e.getStackTrace());
-        }catch (IOException e){
-            System.out.println("IO EXCEPTION: " + e.getStackTrace());
-        }catch (ClassNotFoundException e){
-            System.out.println("CLASS NOT FOUND: " + e.getStackTrace());
+        ArrayList<String> times = new ArrayList<String>();
+
+        Set<String> setTimes = prefs.getStringSet("highTimes", null);
+        System.out.println("SETTIMES: "+setTimes);
+        times.addAll(setTimes);
+        int arrayLength = times.size();
+        for(int i=0; i<arrayLength; i++){
+            Score score = new Score(Long.valueOf(times.get(i)));
+            System.out.println("time"+i+": "+score.getScore());
+            highScores.add(score);
+            System.out.println("loadhighscorefilesize: "+highScores.size());
         }
     }
 
     private void writeHighScoreFile() {
-        try {
-            out = new ObjectOutputStream(new FileOutputStream(cubrHighScoreFile));
-            out.writeObject(highScores);
-            out.close();
-        }catch (FileNotFoundException e){
-            System.out.println("FILE NOT FOUND: " + e.getStackTrace());
-        }catch (IOException e) {
-            System.out.println("IO EXCEPTION: " + e.getStackTrace());
+        highScores = getHighScores();
+        ArrayList<String> times = new ArrayList<String>();
+
+        int arrayLength = highScores.size();
+        System.out.println("writer highscores size: " + arrayLength);
+        for(int i=0; i<arrayLength; i++){
+            times.add(String.valueOf(highScores.get(i).getScore()));
+            System.out.println("WRITERARRAYTIMES: "+times.get(i).toString());
         }
+        Set<String> setTimes = new HashSet<String>();
+        setTimes.addAll(times);
+        System.out.println("WRITERSETTIMES: "+setTimes);
+        editor.putStringSet("highTimes", setTimes);
+        editor.commit();
     }
 }

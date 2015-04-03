@@ -50,6 +50,7 @@ public class GameSession extends Activity {
     private TextView timerView;
     private String path;
     private ScoreManager manager;
+    private Context context;
     //private final String ELAPSEDTIME = "ElapsedTime";
 
     private CallbackManager callbackManager;
@@ -72,10 +73,7 @@ public class GameSession extends Activity {
 
         playNewGame();
         timerView = (TextView) findViewById(R.id.timer);
-        //timer.start();
         timerHandler.postDelayed(timerRunnable, 0);
-
-        //activeGame = new Game(cube);
         setupButtons();
         setupShaker();
 
@@ -83,26 +81,11 @@ public class GameSession extends Activity {
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        System.out.println("GOT HERE: " + prefs.getBoolean("createScoresFileBool",false));
-        //if(prefs.getBoolean("createScoresFileBool", false)){
-            System.out.println("CREATESCORESBOOL: " + prefs.getBoolean("createScoresFileBool", false));
-
-            File external = getFilesDir();
-            path = external.getPath();
-            manager = new ScoreManager(path);
-            File highScoresFile = new File(path + "cubr_highscores.dat");
-            try {
-                highScoresFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            FileOutputStream outputStream = null;
-
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("createScoresFileBool", true);
-            editor.commit();
-       // }
+        File external = getFilesDir();
+        path = external.getPath();
+        manager = new ScoreManager(this);
+        System.out.println("NEW SCOREMANAGER HAS BEEN MADE");
+        context = this;
     }
 
     @Override
@@ -283,42 +266,35 @@ public class GameSession extends Activity {
         });
 
         final Button highScoresButton = (Button) findViewById(R.id.highScoreButton);
-        final GameSession GS = this;
 
         highScoresButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("High scores button clicked");
-                setContentView(R.layout.high_score_dialog);
 
-                final AlertDialog highScoreDialog = new AlertDialog.Builder(GS).create();
-                highScoreDialog.setTitle("High Scores List");
-                highScoreDialog.setButton(DialogInterface.BUTTON_NEUTRAL,"Close",new DialogInterface.OnClickListener(){
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setCancelable(true);
+                builder.setTitle("High Scores List");
+                ArrayList<Score> highScoreArray = manager.getHighScores();
+                int arraySize = highScoreArray.size();
+                String[] stringArrayScores = new String[arraySize];
+
+                for(int i=0; i<stringArrayScores.length; i++){
+                    String time, textScore;
+                    int listNum = i+1;
+
+                    time = String.valueOf(highScoreArray.get(i).getScore());
+                    System.out.println("Time: " + time);
+                    System.out.println("HighScoresSize: " + arraySize);
+                    textScore = (listNum) + ". " + time;
+                    stringArrayScores[i] = textScore;
+                }
+                builder.setItems(stringArrayScores, new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which){
-                        dialog.dismiss();
+
                     }
-                });
-                ListView lv;
-                lv = (ListView) findViewById(R.id.highScoreListView);
-
-                ArrayList<Score> highScores = manager.getHighScores();
-                ArrayList<String> textScores = new ArrayList<String>();
-                for(int i=0; i<highScores.size(); i++){
-                    String name, time, textScore;
-                    name = highScores.get(i).getName();
-                    time = String.valueOf(highScores.get(i).getScore());
-                    textScore = i + ". " + name + ": " + time;
-                    textScores.add(textScore);
-                }
-
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.high_score_dialog,textScores);
-                lv.setAdapter(arrayAdapter);
-
-                highScoreDialog.show();
-
-                setContentView(R.layout.rubix_cube);
-                onCreate(null); // TODO this resets the cube
+                }).show();
             }
         });
 
@@ -516,7 +492,8 @@ public class GameSession extends Activity {
         if (activeGame.isWon()) {
             alertMessage = " You've won!";
             timer.stop();
-            Score newHighScore = new Score("User", timer.elapsedTime);
+
+            Score newHighScore = new Score(timer.elapsedTime);
             manager.addHighScore(newHighScore);
         } else {
             return;
