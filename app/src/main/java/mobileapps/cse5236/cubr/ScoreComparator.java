@@ -10,9 +10,9 @@ public class ScoreComparator implements Comparator<Score> {
         long scoreA = a.getScore();
         long scoreB = b.getScore();
 
-        if (scoreA < scoreB) {
+        if (scoreA > scoreB) {
             return 1;
-        } else if (scoreA > scoreB) {
+        } else if (scoreA < scoreB) {
             return -1;
         } else {
             return 0;
