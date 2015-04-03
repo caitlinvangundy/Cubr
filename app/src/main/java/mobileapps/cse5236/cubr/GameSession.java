@@ -531,6 +531,9 @@ public class GameSession extends Activity {
         if (activeGame.isWon()) {
             alertMessage = " You've won!";
             timer.stop();
+            ScoreManager manager = new ScoreManager(path);
+            Score newHighScore = new Score("User", timer.elapsedTime);
+            manager.addHighScore(newHighScore);
         } else {
             return;
         }
