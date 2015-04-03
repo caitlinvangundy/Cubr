@@ -6,6 +6,7 @@ package mobileapps.cse5236.cubr;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,7 +18,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ImageView;
 
@@ -28,6 +31,7 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameSession extends Activity {
@@ -76,7 +80,9 @@ public class GameSession extends Activity {
         shareDialog = new ShareDialog(this);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        System.out.println("GOT HERE: " + prefs.getBoolean("createScoresFileBool",false));
         if(!prefs.getBoolean("createScoresFileBool", false)){
+            System.out.println("CREATESCORESBOOL: " + prefs.getBoolean("createScoresFileBool", false));
             File highScoresFile = new File(this.getFilesDir(),"cubr_highscores.dat");
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("createScoresFileBool", true);
@@ -224,27 +230,26 @@ public class GameSession extends Activity {
     }
 
     private void setImageFromCurrentImageValue(String image, ImageView iv) {
-        switch (image) {
-            case "circle":
-                iv.setImageResource(R.drawable.circle);
-                break;
-            case "heart":
-                iv.setImageResource(R.drawable.heart);
-                break;
-            case "square":
-                iv.setImageResource(R.drawable.square);
-                break;
-            case "star":
-                iv.setImageResource(R.drawable.star);
-                break;
-            case "triangle":
-                iv.setImageResource(R.drawable.triangle);
-                break;
-            case "x":
-                iv.setImageResource(R.drawable.x);
-                break;
-            default:
-                System.out.println("Incorrect image");
+        if (image.equals("circle")) {
+            iv.setImageResource(R.drawable.circle);
+
+        } else if (image.equals("heart")) {
+            iv.setImageResource(R.drawable.heart);
+
+        } else if (image.equals("square")) {
+            iv.setImageResource(R.drawable.square);
+
+        } else if (image.equals("star")) {
+            iv.setImageResource(R.drawable.star);
+
+        } else if (image.equals("triangle")) {
+            iv.setImageResource(R.drawable.triangle);
+
+        } else if (image.equals("x")) {
+            iv.setImageResource(R.drawable.x);
+
+        } else {
+            System.out.println("Incorrect image");
         }
     }
 
@@ -272,6 +277,42 @@ public class GameSession extends Activity {
                 System.out.println("Exit button clicked");
                 finish();
                 System.exit(0);
+            }
+        });
+
+        final Button highScoresButton = (Button) findViewById(R.id.highScoreButton);
+        highScoresButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                System.out.println("High scores button clicked");
+
+                final AlertDialog highScoreDialog = new AlertDialog.Builder(getApplicationContext()).create();
+                highScoreDialog.setTitle("High Scores List");
+                highScoreDialog.setButton(DialogInterface.BUTTON_NEUTRAL,"Close",new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which){
+                        dialog.dismiss();
+                    }
+                });
+                ListView lv;
+                lv = (ListView) findViewById(R.id.highScoreListView);
+
+                ScoreManager manager = new ScoreManager();
+                ArrayList<Score> highScores = manager.getHighScores();
+                ArrayList<String> textScores = new ArrayList<String>();
+                for(int i=0; i<highScores.size(); i++){
+                    String name, time, textScore;
+                    name = highScores.get(i).getName();
+                    time = String.valueOf(highScores.get(i).getScore());
+                    textScore = i + ". " + name + ": " + time;
+                    textScores.add(textScore);
+                }
+
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.high_score_dialog,textScores);
+                lv.setAdapter(arrayAdapter);
+
+                highScoreDialog.show();
             }
         });
 
