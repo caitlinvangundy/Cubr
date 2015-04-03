@@ -159,23 +159,6 @@ public class GameSession extends Activity {
         super.onDestroy();
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.colorBlindMode:
-                isColorBlindModeOn = !isColorBlindModeOn;
-                applyColorOrImageChanges();
-                return true;
-        }
-        return false;
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
