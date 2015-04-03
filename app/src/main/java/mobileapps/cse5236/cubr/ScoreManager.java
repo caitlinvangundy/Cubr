@@ -1,10 +1,8 @@
 package mobileapps.cse5236.cubr;
-
 import android.content.Context;
 
 import java.util.*;
 import java.io.*;
-
 /**
  * Created by timryan on 3/31/15.
  */
@@ -53,12 +51,12 @@ public class ScoreManager {
             in = new ObjectInputStream(new FileInputStream(cubrHighScoreFile));
             highScores = (ArrayList<Score>) in.readObject();
             in.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("FILE NOT FOUND: " + e.getMessage());
-        } catch (IOException e) {
-            System.out.println("IO EXCEPTION: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            System.out.println("CLASS NOT FOUND: " + e.getMessage());
+        }catch (FileNotFoundException e){
+            System.out.println("FILE NOT FOUND: " + e.getStackTrace());
+        }catch (IOException e){
+            System.out.println("IO EXCEPTION: " + e.getStackTrace());
+        }catch (ClassNotFoundException e){
+            System.out.println("CLASS NOT FOUND: " + e.getStackTrace());
         }
     }
 
@@ -67,10 +65,10 @@ public class ScoreManager {
             out = new ObjectOutputStream(new FileOutputStream(cubrHighScoreFile));
             out.writeObject(highScores);
             out.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("FILE NOT FOUND: " + e.getMessage());
-        } catch (IOException e) {
-            System.out.println("IO EXCEPTION: " + e.getMessage());
+        }catch (FileNotFoundException e){
+            System.out.println("FILE NOT FOUND: " + e.getStackTrace());
+        }catch (IOException e) {
+            System.out.println("IO EXCEPTION: " + e.getStackTrace());
         }
     }
 }
