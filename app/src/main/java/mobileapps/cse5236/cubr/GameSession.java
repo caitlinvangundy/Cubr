@@ -286,16 +286,9 @@ public class GameSession extends Activity {
                     String time, textScore;
                     int listNum = i+1;
 
-                    time = String.valueOf(highScoreArray.get(i).getScore());
-
-                    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss.SSS");
-                    Date dt = new Date();
-                    dt.setTime(highScoreArray.get(i).getScore());
-                    String strValue = timeFormat.format(dt);
-
-                    System.out.println("Time: " + strValue);
+                    System.out.println("Time: " + highScoreArray.get(i).getPrettyScore());
                     System.out.println("HighScoresSize: " + arraySize);
-                    textScore = (listNum) + ". " + strValue;
+                    textScore = (listNum) + ". " + highScoreArray.get(i).getPrettyScore();
                     stringArrayScores[i] = textScore;
                 }
                 builder.setItems(stringArrayScores, new DialogInterface.OnClickListener(){
@@ -315,14 +308,14 @@ public class GameSession extends Activity {
                 System.out.println("Share button clicked");
                 if (ShareDialog.canShow(ShareLinkContent.class)) {
                     Score score = manager.getCurrentHighScore();
-                    float highScore = 0;
+                    String currentHighScore = "";
                     if (null != score){
-                        highScore = score.getScore();
+                        currentHighScore = score.getPrettyScore();
                     }
                     ShareLinkContent linkContent = new ShareLinkContent.Builder()
                             .setContentTitle("I beat Cubr!")
                             .setContentDescription(
-                                    "I got a new high score on Cubr. My new best time is: " + highScore)
+                                    "I got a new high score on Cubr. My new best time is: " + currentHighScore)
                             .setContentUrl((Uri.parse("http://web.cse.ohio-state.edu/~champion/5236/")))
                             .build();
 

@@ -1,22 +1,27 @@
 package mobileapps.cse5236.cubr;
+
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by timryan on 3/31/15.
  */
-public class Score implements Serializable{
-    //private String name;
+public class Score implements Serializable {
     private long score;
 
-    //public String getName(){
-    //    return name;
-    //}
-
-    public long getScore(){
+    public long getScore() {
         return score;
     }
 
-    public Score(long score){
-    //    this.name = name;
+    public String getPrettyScore() {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss.SSS");
+        Date dt = new Date();
+        dt.setTime(score);
+        return timeFormat.format(dt);
+    }
+
+    public Score(long score) {
         this.score = score;
     }
 }
