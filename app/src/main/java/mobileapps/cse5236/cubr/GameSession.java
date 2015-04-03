@@ -7,6 +7,7 @@ package mobileapps.cse5236.cubr;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,6 +32,8 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -80,13 +83,27 @@ public class GameSession extends Activity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         System.out.println("GOT HERE: " + prefs.getBoolean("createScoresFileBool",false));
-        if(!prefs.getBoolean("createScoresFileBool", false)){
+        //if(prefs.getBoolean("createScoresFileBool", false)){
             System.out.println("CREATESCORESBOOL: " + prefs.getBoolean("createScoresFileBool", false));
-            File highScoresFile = new File(this.getFilesDir(),"cubr_highscores.dat");
+            /*File highScoresFile = new File("cubr_highscores.dat");
+            try {
+                highScoresFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }*/
+
+            FileOutputStream outputStream = null;
+            try{
+                outputStream = openFileOutput("cubr_highscores.dat", Context.MODE_PRIVATE);
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("createScoresFileBool", true);
             editor.commit();
-        }
+       // }
     }
 
     @Override
@@ -284,13 +301,16 @@ public class GameSession extends Activity {
         });
 
         final Button highScoresButton = (Button) findViewById(R.id.highScoreButton);
-        highScoresButton.setOnClickListener(new View.OnClickListener() {
+        final GameSession GS = this;
 
+        highScoresButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("High scores button clicked");
 
-                final AlertDialog highScoreDialog = new AlertDialog.Builder(getApplicationContext()).create();
+                setContentView(R.layout.high_score_dialog);
+
+                final AlertDialog highScoreDialog = new AlertDialog.Builder(GS).create();
                 highScoreDialog.setTitle("High Scores List");
                 highScoreDialog.setButton(DialogInterface.BUTTON_NEUTRAL,"Close",new DialogInterface.OnClickListener(){
                     @Override
@@ -316,6 +336,9 @@ public class GameSession extends Activity {
                 lv.setAdapter(arrayAdapter);
 
                 highScoreDialog.show();
+
+                setContentView(R.layout.rubix_cube);
+                onCreate(null);
             }
         });
 
