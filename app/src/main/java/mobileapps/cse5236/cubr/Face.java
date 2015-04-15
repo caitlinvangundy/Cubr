@@ -26,10 +26,10 @@ public class Face {
         Square bottomLeft = rows.get(1).squares.get(0);
         Square bottomRight = rows.get(1).squares.get(1);
 
-        rows.set(0, rows.get(0)).squares.set(0, bottomLeft);
-        rows.set(0, rows.get(0)).squares.set(1, topLeft);
-        rows.set(0, rows.get(1)).squares.set(0, bottomRight);
-        rows.set(0, rows.get(1)).squares.set(1, topRight);
+        rows.get(0).squares.set(0, bottomLeft);
+        rows.get(0).squares.set(1, topLeft);
+        rows.get(1).squares.set(0, bottomRight);
+        rows.get(1).squares.set(1, topRight);
     }
 
     public void rotateCounterClockwise() {
@@ -38,10 +38,10 @@ public class Face {
         Square bottomLeft = rows.get(1).squares.get(0);
         Square bottomRight = rows.get(1).squares.get(1);
 
-        rows.set(0, rows.get(0)).squares.set(0, topRight);
-        rows.set(0, rows.get(0)).squares.set(1, bottomRight);
-        rows.set(0, rows.get(1)).squares.set(0, topLeft);
-        rows.set(0, rows.get(1)).squares.set(1, bottomLeft);
+        rows.get(0).squares.set(0, topRight);
+        rows.get(0).squares.set(1, bottomRight);
+        rows.get(1).squares.set(0, topLeft);
+        rows.get(1).squares.set(1, bottomLeft);
     }
 
     public int getFaceIndex() {
