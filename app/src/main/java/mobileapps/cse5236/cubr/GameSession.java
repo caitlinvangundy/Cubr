@@ -54,7 +54,6 @@ public class GameSession extends Activity {
     private String path;
     private ScoreManager manager;
     private Context context;
-    //private final String ELAPSEDTIME = "ElapsedTime";
 
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
@@ -147,15 +146,11 @@ public class GameSession extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //outState.putLong(ELAPSEDTIME, timer.elapsedTime);
-        //System.out.println("Saved!");
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        //System.out.println("Loaded!");
-        //timer.elapsedTime = savedInstanceState.getLong(ELAPSEDTIME);
     }
 
     private void playNewGame() {

@@ -1,26 +1,29 @@
 package mobileapps.cse5236.cubr;
 
+import android.os.AsyncTask;
+
 /**
  * Created by Caitlin on 3/27/2015.
  */
 
-public class Game {
+public class Game extends AsyncTask<Void, Void, Void> {
     private Cube cube;
     private enum STATE {Inactive, Active, Won};
     private STATE gameState = STATE.Inactive;
-    private int playCount = 0;
 
     public Game(Cube cb) {
         gameState = STATE.Active;
         cube = cb;
     }
 
-    public boolean isActive() {
-        return gameState == STATE.Active;
+    @Override
+    protected Void doInBackground(Void... params) {
+        checkResultAndSetState();
+        return null;
     }
 
     public boolean isWon() {
-        checkResultAndSetState();
+        doInBackground(null);
         return gameState == STATE.Won;
     }
 
@@ -32,7 +35,7 @@ public class Game {
         }
     }
 
-    private boolean allSidesComplete(){
+    private boolean allSidesComplete() {
         return checkFace(cube.getCubeView().getCurrentFace())
                 && checkFace(cube.getCubeView().getTopFace())
                 && checkFace(cube.getCubeView().getBottomFace())
@@ -41,7 +44,7 @@ public class Game {
                 && checkFace(cube.getCubeView().getBackFace());
     }
 
-    private boolean checkFace(Face face){
+    private boolean checkFace(Face face) {
         int color = face.rows.get(0).squares.get(0).color;
         return (color == face.rows.get(0).squares.get(1).color)
                 && (color == face.rows.get(1).squares.get(0).color)
