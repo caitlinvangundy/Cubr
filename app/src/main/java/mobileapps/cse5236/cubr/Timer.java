@@ -23,7 +23,7 @@ public class Timer {
         timerOn = false;
     }
 
-    private boolean update() {
+    public boolean update() {
         if(timerOn) {
             elapsedTime += (System.currentTimeMillis() - currentTime);
             currentTime = System.currentTimeMillis();
