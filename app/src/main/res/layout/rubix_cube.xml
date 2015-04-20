@@ -90,27 +90,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/linearLayout">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="High Scores"
-        android:id="@+id/highScoreButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Share"
-        android:id="@+id/facebook"
-        />
-    <Button
-        android:id="@+id/exitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Exit"
-        android:layout_alignParentRight="true" />
+
     </LinearLayout>
 
     <!-- Row and Column rotation buttons-->
@@ -239,10 +219,41 @@
         android:layout_height="wrap_content"
         android:text="Toggle Color Blind Mode"
         android:id="@+id/colorBlindButton"
-        android:layout_above="@+id/linearLayout"
-        android:layout_alignLeft="@+id/linearLayout"
-        android:layout_alignStart="@+id/linearLayout"
-        android:layout_alignRight="@+id/linearLayout"
-        android:layout_alignEnd="@+id/linearLayout" />
+        android:layout_above="@+id/highScoreButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/viewChangerWithArrows"
+        android:layout_alignEnd="@+id/viewChangerWithArrows" />
+
+    <Button
+        android:id="@+id/exitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Exit"
+        android:layout_below="@+id/colorBlindButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/colorBlindButton"
+        android:layout_alignEnd="@+id/colorBlindButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="High Scores"
+        android:id="@+id/highScoreButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Share"
+    android:id="@+id/facebook"
+        android:layout_alignTop="@+id/colorBlindButton"
+        android:layout_alignLeft="@+id/highScoreButton"
+        android:layout_alignStart="@+id/highScoreButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
